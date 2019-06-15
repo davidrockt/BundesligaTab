@@ -1,6 +1,8 @@
+import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Table {
-    Set<Country> countries = new TreeSet<>();
+    private Comparator<Country> comp = Comparator.comparingInt(Country::getPoints);
+    private Set<Country> countries = new TreeSet<>(comp);
 }
