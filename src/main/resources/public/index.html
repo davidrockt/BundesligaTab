@@ -24,19 +24,41 @@
         .datagrid table tfoot td div{ padding: 3px; }
     </style>
 </head>
-<body onload="loadTable()" >
+<body onload="loadTable()">
 <div class="datagrid"><table id="table">
     <!-- Hier kommt der Tabelleninhalt hin
-    <thead><tr><th></th><th>Spiele</th><th>Gewonnen</th><th>Tore</th><th>Punkte</th></tr></thead>
-    <tfoot><tr><td colspan="5"><div id="no-paging">&nbsp;</div></tr></tfoot>
-    <tbody><tr><td>1</td><td>data</td><td>data</td><td>data</td><td></td></tr>
-    <tr class="alt"><td>2</td><td>data</td><td>data</td><td></td><td></td></tr>
-    <tr><td>3</td><td>data</td><td>data</td><td>data</td><td></td></tr>
-    <tr class="alt"><td>4</td><td>data</td><td>data</td><td>data</td><td></td></tr>
+
+    <thead>
+        <tr>
+            <th></th> <th>Spiele</th> <th>Gewonnen</th> <th>Tore</th> <th>Punkte</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="5"><div>&nbsp;</div>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr>
+            <td>1</td> <td>data</td> <td>data</td> <td>data</td> <td></td>
+        </tr>
+        <tr class="alt">
+            <td>2</td> <td>data</td> <td>data</td> <td></td> <td></td>
+        </tr>
+        <tr>
+            <td>3</td> <td>data</td> <td>data</td> <td>data</td> <td></td>
+        </tr>
+        <tr class="alt">
+            <td>4</td> <td>data</td> <td>data</td> <td>data</td> <td></td>
+        </tr>
     </tbody>
-    Ende Tabelleninhalt-->
+
+    Ende Tabelleninhalt -->
 </table></div>
+
+<!-- <button onclick="loadTable()">Do Something</button> -->
 </body>
+
 <script type="text/javascript">
     var http = new XMLHttpRequest();
 

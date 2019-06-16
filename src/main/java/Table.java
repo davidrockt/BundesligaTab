@@ -14,12 +14,29 @@ public class Table {
 
     @Override
     public String toString() {
-        return "<thead><tr><th></th><th>Spiele</th><th>Gewonnen</th><th>Tore</th><th>Punkte</th></tr></thead>\n" +
-                "    <tfoot><tr><td colspan=\"5\"><div id=\"no-paging\">&nbsp;</div></tr></tfoot>\n" +
-                "    <tbody><tr><td>1</td><td>data</td><td>data</td><td>data</td><td></td></tr>\n" +
-                "    <tr class=\"alt\"><td>2</td><td>data</td><td>data</td><td></td><td></td></tr>\n" +
-                "    <tr><td>3</td><td>data</td><td>data</td><td>data</td><td></td></tr>\n" +
-                "    <tr class=\"alt\"><td>4</td><td>data</td><td>data</td><td>data</td><td></td></tr>\n" +
+        return "<thead>\n" +
+                "        <tr>\n" +
+                "            <th></th> <th>Land</th> <th>Spiele</th> <th>Gewonnen</th> <th>Tore</th> <th>Punkte</th>\n" +
+                "        </tr>\n" +
+                "    </thead>\n" +
+                "    <tfoot>\n" +
+                "        <tr>\n" +
+                "            <td colspan=\"6\"><div>&nbsp;</div>\n" +
+                "        </tr>\n" +
+                "    </tfoot>\n" +
+                "    <tbody>\n" +
+                "        <tr>\n" +
+                String.format("<td>1</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n") +
+                "        </tr>\n" +
+                "        <tr class=\"alt\">\n" +
+                "            <td>2</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n" +
+                "        </tr>\n" +
+                "        <tr>\n" +
+                "            <td>3</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n" +
+                "        </tr>\n" +
+                "        <tr class=\"alt\">\n" +
+                "            <td>4</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n" +
+                "        </tr>\n" +
                 "    </tbody>";
     }
 }
