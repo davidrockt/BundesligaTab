@@ -1,20 +1,22 @@
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Collections;
+import java.util.List;
 
 public class Table {
     private int size;
-    private Comparator<Country> comp = Comparator.comparingInt(Country::getPoints);
-    private Set<Country> countries = new TreeSet<>(comp);
+    private List<Country> countries = new ArrayList<>();
 
     public Table(Country[] countryArr) {
+        System.out.println("countryArr = " + Arrays.toString(countryArr));
         countries.addAll(Arrays.asList(countryArr));
+        System.out.println("countries = " + countries);
     }
 
     @Override
     public String toString() {
-        return "<thead>\n" +
+        Collections.sort(countries);
+        String str = "<thead>\n" +
                 "        <tr>\n" +
                 "            <th></th> <th>Land</th> <th>Spiele</th> <th>Gewonnen</th> <th>Tore</th> <th>Punkte</th>\n" +
                 "        </tr>\n" +
@@ -24,19 +26,18 @@ public class Table {
                 "            <td colspan=\"6\"><div>&nbsp;</div>\n" +
                 "        </tr>\n" +
                 "    </tfoot>\n" +
-                "    <tbody>\n" +
-                "        <tr>\n" +
-                String.format("<td>1</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n") +
-                "        </tr>\n" +
-                "        <tr class=\"alt\">\n" +
-                "            <td>2</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td>3</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n" +
-                "        </tr>\n" +
-                "        <tr class=\"alt\">\n" +
-                "            <td>4</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td> <td>data</td>\n" +
-                "        </tr>\n" +
-                "    </tbody>";
+                "    <tbody>\n";
+        int i = 1;
+        for(Country country: countries) {
+            System.out.println("country.getName() = " + country.getName());
+            str +=
+            "<tr>\n" +
+            String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d</td> <td>%d</td> <td>%d</td>\n",
+                            i, country.getName(), country.getGamesPlayed(), country.getWinLoose()[0], country.getGoals()[0], country.getPoints()) +
+            "</tr>\n";
+        }
+        str += "    </tbody>";
+
+        return str;
     }
 }
