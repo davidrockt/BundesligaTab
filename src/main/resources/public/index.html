@@ -55,7 +55,27 @@
 
     Ende Tabelleninhalt -->
 </table></div>
-
+<form id="addgame">
+    <label>Füge neues Spiel hinzu:
+        <select name="country1" id="country1">
+            <option value="de">Deutschland</option>
+            <option value="gb">England</option>
+            <option value="es">Spanien</option>
+            <option value="br">Brasilien</option>
+        </select>
+        <select name="country2" id="country2">
+            <option value="br">Brasilien</option>
+            <option value="gb">England</option>
+            <option value="de">Deutschland</option>
+            <option value="es">Spanien</option>
+        </select>
+        Tore:
+        <input id="goals1" type="number">
+         :
+        <input id="goals2" type="number">
+        <input type="button" onclick="addGame()" value="FERTIG!">
+    </label>
+</form>
 <!-- <button onclick="loadTable()">Do Something</button> -->
 </body>
 
@@ -76,6 +96,14 @@
 
     function loadTable() {
         sendRequestGET('start');
+    }
+
+    function addGame() {
+
+        sendRequestGET('addgame', 'country1=' + document.getElementById('country1').value +
+                        '&country2=' + document.getElementById('country2').value +
+                        '&goals1=' + document.getElementById('goals1').value +
+                        '&goals2=' + document.getElementById('goals2').value);
     }
 </script>
 </html>
