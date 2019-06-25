@@ -36,7 +36,6 @@ public class Country implements Comparable{
     }
 
     void update(int goals, int goalsAgainst) {
-        // TODO update the statistics
         this.goals[0] += goals;
         this.goals[1] += goalsAgainst;
         this.goals[2] += goals - goalsAgainst;
