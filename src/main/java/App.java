@@ -20,6 +20,10 @@ public class App {
         Match match = new Match(de, br, 7, 1);
         Match match2 = new Match(gb, es, 3, 2);
 
+        app.ws("/websocket/:path", ws -> {
+            ws.onConnect(ctx -> System.out.println("Connected"));
+        });
+
         app.get("/start", ctx -> ctx.result(table.toString()));
 
         app.get("/addgame", ctx -> {
