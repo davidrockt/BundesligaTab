@@ -105,6 +105,42 @@
                         '&goals1=' + document.getElementById('goals1').value +
                         '&goals2=' + document.getElementById('goals2').value);
     }
+
+    // Kopie von https://javalin.io/tutorials/websocket-example
+    //
+    //
+    // small helper function for selecting element by id
+    let id = id => document.getElementById(id);
+
+    //Establish the WebSocket connection and set up event handlers
+    let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat");
+    ws.onmessage = msg => updateTable(msg);
+    ws.onclose = () => alert("WebSocket connection closed");
+
+    // Add event listeners to button and input field
+    id("send").addEventListener("click", () => sendAndClear(id("message").value));
+    id("message").addEventListener("keypress", function (e) {
+        if (e.code === "0x24") { // Send message if enter is pressed in input field
+            sendAndClear(e.target.value);
+        }
+    });
+
+    function sendAndClear(message) {
+        if (message !== "") {
+            ws.send(message);
+            id("message").value = "";
+        }
+    }
+
+    function updateTable(msg) { // Update chat-panel and list of connected users
+        let data = JSON.parse(msg.data);
+        id("table").insertAdjacentHTML("afterbegin", data.userMessage);
+        id("userlist").innerHTML = data.userlist.map(user => "<li>" + user + "</li>").join("");
+    }
+    //
+    //
+    // Kopie Ende
+
 </script>
 </html>
 
