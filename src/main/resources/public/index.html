@@ -73,7 +73,7 @@
         <input id="goals1" type="number">
          :
         <input id="goals2" type="number">
-        <input type="button" onclick="addGame()" value="FERTIG!">
+        <input type="button" onclick="sendAndClear()" value="FERTIG!">
     </label>
 </form>
 <!-- <button onclick="loadTable()">Do Something</button> -->
@@ -113,7 +113,7 @@
     let id = id => document.getElementById(id);
 
     //Establish the WebSocket connection and set up event handlers
-    let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat");
+    let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/livematch");
     ws.onmessage = msg => updateTable(msg);
     ws.onclose = () => alert("WebSocket connection closed");
 
