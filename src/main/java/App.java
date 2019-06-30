@@ -1,6 +1,8 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.websocket.WsSession;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +26,8 @@ public class App {
             put("br", br);
         }};
         Table table = new Table(countries);
-        Match match = new Match(de, br, 7, 1);
-        Match match2 = new Match(gb, es, 3, 2);
+        //Match match = new Match(de, br, 7, 1);
+        //Match match2 = new Match(gb, es, 3, 2);
 
         app.ws("/livematch", ws -> {
             ws.onConnect(session -> {
@@ -45,8 +47,27 @@ public class App {
                 }
                 // Ende Kopie
             });
+
+            ws.onMessage((session, message) -> {
+                System.out.println("Hello");
+                ObjectMapper objectMapper = new ObjectMapper();
+                try {
+                    System.out.println("message = " + message);
+                    Match newMatch = objectMapper.readValue(message, Match.class);
+                    System.out.println("table.toString() = " + table.toString());
+                    session.send(table.toString());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                String country1 = jobj.get("country1").toString();
+//                String country2 = jobj.get("country2").toString();
+//                int goals1 = (int) jobj.get("country1");
+//                int goals2 = (int) jobj.get("country1");
+                //Match newMatch = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
+            });
             ws.onClose((session, status, message) -> {
-                sessions.remove(session);
+                sessions.clear();
             });
         });
 
@@ -58,7 +79,7 @@ public class App {
             String country2 = (Objects.requireNonNull(ctx.queryParam("country2")));
             int goals1 = Integer.parseInt(Objects.requireNonNull(ctx.queryParam("goals1")));
             int goals2 = Integer.parseInt(Objects.requireNonNull(ctx.queryParam("goals2")));
-            Match match3 = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
+            //Match match3 = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
             ctx.result(table.toString());
         });
     }
