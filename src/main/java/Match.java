@@ -2,7 +2,7 @@ public class Match {
     private Country team1, team2;
     private Integer goals1, goals2;
     public Match() {}
-    /*public Match(Country team1, Country team2, int goals1, int goals2) {
+    public Match(Country team1, Country team2, int goals1, int goals2) {
         team1.update(goals1, goals2);
         team2.update(goals2, goals1);
 
@@ -12,7 +12,7 @@ public class Match {
         this.goals2 = goals2;
     }
 
-    // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"3\",\"goals2\":\"1\"}"
+    /* "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"3\",\"goals2\":\"1\"}"
     public Match(String input) {
         this.bla = input;
     }*/

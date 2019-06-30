@@ -1,8 +1,6 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.websocket.WsSession;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,17 +48,15 @@ public class App {
 
             ws.onMessage((session, message) -> {
                 System.out.println("Hello");
-                ObjectMapper objectMapper = new ObjectMapper();
-                try {
-                    System.out.println("message = " + message);
-                    Match newMatch = objectMapper.readValue(message, Match.class);
-                    System.out.println("table.toString() = " + table.toString());
-                    session.send(table.toString());
+                System.out.println("message = " + message);
+                // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"2\",\"goals2\":\"1\"}"
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-//                String country1 = jobj.get("country1").toString();
+                String[] msg = message.replaceAll("", "").split("\\\"");
+                Arrays.stream(msg).forEach(System.out::println);
+                System.out.println("table.toString() = " + table.toString());
+                session.send(table.toString());
+
+                //                String country1 = jobj.get("country1").toString();
 //                String country2 = jobj.get("country2").toString();
 //                int goals1 = (int) jobj.get("country1");
 //                int goals2 = (int) jobj.get("country1");
