@@ -24,12 +24,13 @@ public class App {
             put("br", br);
         }};
         Table table = new Table(countries);
+        Match newMatch = new Match();
         //Match match = new Match(de, br, 7, 1);
         //Match match2 = new Match(gb, es, 3, 2);
 
         app.ws("/livematch", ws -> {
             ws.onConnect(session -> {
-                System.out.println("Connected");
+                System.out.println("Connected. Session: " + session.getId());
                 
                 // Kopie vom Projekt "connect4" (Nur 2 verschiedene Sessions möglich)
                 if(sessions.size() == 1) {
@@ -51,18 +52,21 @@ public class App {
                 System.out.println("message = " + message);
                 // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"2\",\"goals2\":\"1\"}"
 
-                String[] msg = message.replaceAll("", "").split("\\\"");
-                Arrays.stream(msg).forEach(System.out::println);
+                String msg = message.replaceAll("(\\{)|(\\\\)|(\\})|(\")", "");
+                System.out.println("msg = " + msg);
+                String[] msgs = msg.split("[,:]");
+                Arrays.stream(msgs).forEach(System.out::println);
+
+                String country1 = msgs[0];
+                String country2 = msgs[1];
+                int goals1 = Integer.parseInt(msgs[2]);
+                int goals2 = Integer.parseInt(msgs[3]);
+                Match.addData(countries.get(country1), countries.get(country2), goals1, goals2);
                 System.out.println("table.toString() = " + table.toString());
                 session.send(table.toString());
-
-                //                String country1 = jobj.get("country1").toString();
-//                String country2 = jobj.get("country2").toString();
-//                int goals1 = (int) jobj.get("country1");
-//                int goals2 = (int) jobj.get("country1");
-                //Match newMatch = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
             });
             ws.onClose((session, status, message) -> {
+                System.out.println("Disconnected, Session: " + session.getId());
                 sessions.clear();
             });
         });
@@ -78,5 +82,12 @@ public class App {
             //Match match3 = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
             ctx.result(table.toString());
         });
+    }
+
+    public static void updateTeams(Country team1, Country team2, int goals1, int goals2) {
+        System.out.println("team1 = " + team1);
+        System.out.println("goals1 = " + goals1);
+        team1.update(goals1, goals2);
+        team2.update(goals2, goals1);
     }
 }

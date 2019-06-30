@@ -3,6 +3,8 @@ public class Match {
     private Integer goals1, goals2;
     public Match() {}
     public Match(Country team1, Country team2, int goals1, int goals2) {
+        System.out.println("team1 = " + team1);
+        System.out.println("goals1 = " + goals1);
         team1.update(goals1, goals2);
         team2.update(goals2, goals1);
 
@@ -10,6 +12,13 @@ public class Match {
         this.team2 = team2;
         this.goals1 = goals1;
         this.goals2 = goals2;
+    }
+
+    public static void addData(Country team1, Country team2, int goals1, int goals2) {
+        System.out.println("team1 = " + team1);
+        System.out.println("goals1 = " + goals1);
+        team1.update(goals1, goals2);
+        team2.update(goals2, goals1);
     }
 
     /* "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"3\",\"goals2\":\"1\"}"

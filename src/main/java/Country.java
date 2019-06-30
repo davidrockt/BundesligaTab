@@ -36,6 +36,8 @@ public class Country implements Comparable{
     }
 
     void update(int goals, int goalsAgainst) {
+        System.out.println("Country = " + name);
+        System.out.println("This just in: goals = " + goals + " - " + goalsAgainst);
         this.goals[0] += goals;
         this.goals[1] += goalsAgainst;
         this.goals[2] += goals - goalsAgainst;
