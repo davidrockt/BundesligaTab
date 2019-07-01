@@ -28,7 +28,6 @@ public class Table {
                 "    <tbody>\n");
         int i = 1;
         for(Country country: countries) {
-            System.out.println("country.getName() = " + country.getName());
             str.append("<tr>\n").append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d</td> <td>%d</td> <td>%d</td>\n",
                     i, country.getName(), country.getGamesPlayed(), country.getWinLoose()[0], country.getGoals()[0], country.getPoints())).append("</tr>\n");
         }

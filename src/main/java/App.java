@@ -25,24 +25,12 @@ public class App {
             put("br", br);
         }};
         Table table = new Table(countries);
-        //Match match = new Match(de, br, 7, 1);
-        //Match match2 = new Match(gb, es, 3, 2);
+        Match match = new Match(de, br, 7, 1);
+        Match match2 = new Match(gb, es, 3, 2);
 
         app.ws("/livematch", ws -> {
             ws.onConnect(session -> {
 
-                /* Kopie vom Projekt "connect4" (Nur 2 verschiedene Sessions möglich)
-                if (sessions.size() == 1) {
-                    if (sessions.containsValue("2")) {
-                        sessions.put(session, "1");
-                    } else {
-                        sessions.put(session, "2");
-                    }
-                }
-                if (sessions.size() == 0) {
-                    sessions.put(session, "1");
-                }
-                // Ende Kopie */
                 sessions.put(session, "" + sessions.size());
                 System.out.println("Connected: " + sessions.get(session));
             });
@@ -85,7 +73,7 @@ public class App {
     }
 
     private static void broadcastMessage(String message) {
-        sessions.keySet().stream().forEach(ses -> {
+        sessions.keySet().forEach(ses -> {
             System.out.println("sessions.get(ses) = " + sessions.get(ses));
             ses.send(message);
         });
