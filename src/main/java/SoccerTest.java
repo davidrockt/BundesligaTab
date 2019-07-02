@@ -7,7 +7,7 @@ System.out.println("Running tests ...");
 
 try {
 assert false;
-System.out.println("ERROR: You forgot to enable asserts! Type: jshell -R-ea");
+System.out.println("Bitte asserts aktivieren: jshell -R-ea");
 System.exit(1);
 } catch (AssertionError e) { /* everything is fine if error is thrown */ }
 
@@ -17,9 +17,9 @@ assert de.getGamesPlayed() == 0 && de.getWinLoose().equals(new int[]{0, 0, 0})
         && de.getGoals().equals(new int[]{0, 0, 0}) && de.getPoints() == 0 : "Test 1";
 
 // de wird upgedatet mit 2 Toren und 1 Gegentor
-de.update(2, 1);
-assert de.getGamesPlayed() == 1 && de.getWinLoose().equals(new int[]{1, 0, 0})
-        && de.getGoals().equals(new int[]{2, 1, 1}) && de.getPoints() == 3 : "Test 2";
+de.update(1, 1);
+assert de.getGamesPlayed() == 1 && de.getWinLoose().equals(new int[]{0, 0, 1})
+        && de.getGoals().equals(new int[]{1, 1, 0}) && de.getPoints() == 1 : "Test 2";
 
 Country es = new Country("Spanien");
 Map<String, Country> countries = new HashMap<String, Country>() {{
@@ -34,7 +34,17 @@ String str;
 for(Country c: countries) {
         str += c.getName();
 }
-assert str.equals("DeutschlandSpanien");
+assert str.equals("DeutschlandSpanien"): "Test 3";
+
+es.update(3, 2);
+assert es.getGamesPlayed() == 1 && es.getWinLoose().equals(new int[]{1, 0, 0})
+        && es.getGoals().equals(new int[]{3, 2, 0}) && es.getPoints() == 3 : "Test 4";
+
+table.sortCountries();
+for(Country c: countries) {
+        str += c.getName();
+}
+assert str.equals("SpanienDeutschland"): "Test 5";
 
 
 
