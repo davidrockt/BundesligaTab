@@ -9,17 +9,21 @@ try {
 assert false;
 System.out.println("Bitte asserts aktivieren: jshell -R-ea");
 System.exit(1);
-} catch (AssertionError e) { /* everything is fine if error is thrown */ }
+} catch (AssertionError e) { /* Wenn der Error geworfen wird, ist alles gut */ }
 
 
 Country de = new Country("Deutschland");
-assert de.getGamesPlayed() == 0 && de.getWinLoose().equals(new int[]{0, 0, 0})
-        && de.getGoals().equals(new int[]{0, 0, 0}) && de.getPoints() == 0 : "Test 1";
+assert de.getGamesPlayed() == 0 : "Test 1";
+assert de.getWinLoose().equals(new int[]{0, 0, 0}) : "Test 2";
+assert de.getGoals().equals(new int[]{0, 0, 0}) : "Test 3";
+assert de.getPoints() == 0 : "Test 4";
 
 // de wird upgedatet mit 2 Toren und 1 Gegentor
 de.update(1, 1);
-assert de.getGamesPlayed() == 1 && de.getWinLoose().equals(new int[]{0, 0, 1})
-        && de.getGoals().equals(new int[]{1, 1, 0}) && de.getPoints() == 1 : "Test 2";
+assert de.getGamesPlayed() == 1 : "Test 5";
+assert de.getWinLoose().equals(new int[]{0, 0, 1}) : "Test 6";
+assert de.getGoals().equals(new int[]{1, 1, 0}) : "Test 7";
+assert de.getPoints() == 1 : "Test 8";
 
 Country es = new Country("Spanien");
 Map<String, Country> countries = new HashMap<String, Country>() {{
@@ -31,14 +35,11 @@ Table table = new Table(countries);
 // Test für richtiges Sortieren
 table.sortCountries();
 String str;
-for(Country c: countries) {
-        str += c.getName();
-}
-assert str.equals("DeutschlandSpanien"): "Test 3";
+Country[] cArr = (Country[]) table.getCountries().toArray();
+assert cArr[0] == "Deutschland" && cArr[1] == "Spanien" : "Test 9";
 
 es.update(3, 2);
-assert es.getGamesPlayed() == 1 && es.getWinLoose().equals(new int[]{1, 0, 0})
-        && es.getGoals().equals(new int[]{3, 2, 0}) && es.getPoints() == 3 : "Test 4";
+assert es.getGamesPlayed() == 1 && es.getWinLoose().equals(new int[]{1, 0, 0}) && es.getGoals().equals(new int[]{3, 2, 0}) && es.getPoints() == 3 : "Test 4";
 
 table.sortCountries();
 for(Country c: countries) {
@@ -49,7 +50,7 @@ assert str.equals("SpanienDeutschland"): "Test 5";
 
 
 
-
+/*
 // Numeral aus max. 4 Zeichen (inkl. '.')
         FloatInput n = new FloatNumber(4);
 // Initialwert ist 0, woran auch ein undo nichts ändert
@@ -90,3 +91,4 @@ assert str.equals("SpanienDeutschland"): "Test 5";
         assert n.getFloat() == 7.0f && n.toString().equals("7") : "Test 13";
         assert n.put('1');
         assert n.getFloat() == 71.0f && n.toString().equals("71") : "Test 14";
+        */

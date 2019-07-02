@@ -9,7 +9,7 @@ public class Table {
 
     public Table(Map<String, Country> countryArr) {
         countries.addAll(countryArr.values());
-
+        Country[] c = (Country[]) getCountries().toArray();
         System.out.println("countries = " + countries);
     }
 
