@@ -9,12 +9,21 @@ public class Table {
 
     public Table(Map<String, Country> countryArr) {
         countries.addAll(countryArr.values());
+
         System.out.println("countries = " + countries);
+    }
+
+    public void sortCountries() {
+        Collections.sort(countries);
+    }
+
+    public List<Country> getCountries() {
+        return countries;
     }
 
     @Override
     public String toString() {
-        Collections.sort(countries);
+        sortCountries();
         StringBuilder str = new StringBuilder("<thead>\n" +
                 "        <tr>\n" +
                 "            <th></th> <th>Land</th> <th>Spiele</th> <th>Gewonnen</th> <th>Tore</th> <th>Punkte</th>\n" +
@@ -27,7 +36,7 @@ public class Table {
                 "    </tfoot>\n" +
                 "    <tbody>\n");
         int i = 1;
-        for(Country country: countries) {
+        for (Country country : countries) {
             str.append("<tr>\n").append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d</td> <td>%d</td> <td>%d</td>\n",
                     i, country.getName(), country.getGamesPlayed(), country.getWinLoose()[0], country.getGoals()[0], country.getPoints())).append("</tr>\n");
         }

@@ -3,7 +3,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Country implements Comparable{
+public class Country implements ICountry, Comparable {
 
     private String name;
     private int gamesPlayed = 0;
@@ -11,31 +11,32 @@ public class Country implements Comparable{
     private int[] goals = {0, 0, 0};
     private int points = 0;
 
-    String getName() {
-        return name;
-    }
-
-    int getGamesPlayed() {
-        return gamesPlayed;
-    }
-
-    int[] getWinLoose() {
-        return winLoose;
-    }
-
-    int[] getGoals() {
-        return goals;
-    }
-
-    int getPoints() {
-        return points;
-    }
-
     Country(String name) {
         this.name = name;
     }
 
-    void update(int goals, int goalsAgainst) {
+    public String getName() {
+        return name;
+    }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    public int[] getWinLoose() {
+        return winLoose;
+    }
+
+    public int[] getGoals() {
+        return goals;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+
+    public void update(int goals, int goalsAgainst) {
         System.out.println("Country = " + name);
         System.out.println("This just in: goals = " + goals + " - " + goalsAgainst);
         this.goals[0] += goals;
@@ -46,6 +47,7 @@ public class Country implements Comparable{
             case 0:
                 winLoose[2] += 1;
                 points++;
+                getGoals().equals(new int[]{0, 0, 0});
                 break;
             case -1:
                 winLoose[1] += 1;
@@ -70,7 +72,7 @@ public class Country implements Comparable{
 
     @Override
     public int compareTo(@NotNull Object o) {
-        if(((Country) o).points != points)
+        if (((Country) o).points != points)
             return ((Country) o).points - points;
         return ((Country) o).goals[2] - goals[2];
     }

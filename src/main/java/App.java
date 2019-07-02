@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class App {
-    static Map<WsSession, String> sessions = new ConcurrentHashMap<>();
+    private static Map<WsSession, String> sessions = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         Javalin app = Javalin.create()

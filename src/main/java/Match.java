@@ -1,7 +1,10 @@
 public class Match {
     private Country team1, team2;
     private Integer goals1, goals2;
-    public Match() {}
+
+    public Match() {
+    }
+
     public Match(Country team1, Country team2, int goals1, int goals2) {
         System.out.println("team1 = " + team1);
         System.out.println("goals1 = " + goals1);
