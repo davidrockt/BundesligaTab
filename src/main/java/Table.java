@@ -9,7 +9,7 @@ public class Table {
 
     public Table(Map<String, Country> countryArr) {
         countries.addAll(countryArr.values());
-        Country[] c = (Country[]) getCountries().toArray();
+        // Country[] c = (Country[]) getCountries().toArray();
         System.out.println("countries = " + countries);
     }
 
@@ -19,6 +19,10 @@ public class Table {
 
     public List<Country> getCountries() {
         return countries;
+    }
+
+    public Country[] getCountryArray() {
+        return countries.toArray(new Country[countries.size()]);
     }
 
     @Override

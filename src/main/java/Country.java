@@ -1,9 +1,11 @@
 // import org.jetbrains.annotations.NotNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Country implements ICountry, Comparable {
+public class Country implements ICountry, Comparable<Country> {
 
     private String name;
     private int gamesPlayed = 0;
@@ -71,10 +73,10 @@ public class Country implements ICountry, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (((Country) o).points != points)
-            return ((Country) o).points - points;
-        return ((Country) o).goals[2] - goals[2];
+    public int compareTo(@NotNull Country o) {
+        if (o.points != points)
+            return o.points - points;
+        return o.goals[2] - goals[2];
     }
 
     @Override

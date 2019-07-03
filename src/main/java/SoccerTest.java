@@ -8,21 +8,20 @@ System.out.println("Running tests ...");
 try {
 assert false;
 System.out.println("Bitte asserts aktivieren: jshell -R-ea");
-System.exit(1);
 } catch (AssertionError e) { /* Wenn der Error geworfen wird, ist alles gut */ }
 
 
 Country de = new Country("Deutschland");
 assert de.getGamesPlayed() == 0 : "Test 1";
-assert de.getWinLoose().equals(new int[]{0, 0, 0}) : "Test 2";
-assert de.getGoals().equals(new int[]{0, 0, 0}) : "Test 3";
+assert de.getWinLoose()[0] == 0 && de.getWinLoose()[1] == 0 && de.getWinLoose()[2] == 0: "Test 2";
+assert de.getGoals()[0] == 0 && de.getGoals()[1] == 0 && de.getGoals()[2] == 0 : "Test 3";
 assert de.getPoints() == 0 : "Test 4";
 
 // de wird upgedatet mit 2 Toren und 1 Gegentor
 de.update(1, 1);
 assert de.getGamesPlayed() == 1 : "Test 5";
-assert de.getWinLoose().equals(new int[]{0, 0, 1}) : "Test 6";
-assert de.getGoals().equals(new int[]{1, 1, 0}) : "Test 7";
+assert de.getWinLoose()[0] == 0 && de.getWinLoose()[1] == 0 && de.getWinLoose()[2] == 1: "Test 6";
+assert de.getGoals()[0] == 1 && de.getGoals()[1] == 1 && de.getGoals()[2] == 0 : "Test 7";
 assert de.getPoints() == 1 : "Test 8";
 
 Country es = new Country("Spanien");
@@ -34,18 +33,18 @@ Table table = new Table(countries);
 
 // Test für richtiges Sortieren
 table.sortCountries();
-String str;
-Country[] cArr = (Country[]) table.getCountries().toArray();
-assert cArr[0] == "Deutschland" && cArr[1] == "Spanien" : "Test 9";
+Country[] cArr = table.getCountryArray(); // (Country[]) table.getCountries().toArray();
+assert cArr[0].equals(de) && cArr[1].equals(es) : "Test 9";
 
 es.update(3, 2);
-assert es.getGamesPlayed() == 1 && es.getWinLoose().equals(new int[]{1, 0, 0}) && es.getGoals().equals(new int[]{3, 2, 0}) && es.getPoints() == 3 : "Test 4";
+assert es.getGamesPlayed() == 1 : "Test 10";
+assert es.getWinLoose()[0] == 1 && es.getWinLoose()[1] == 0 && es.getWinLoose()[1] == 0: "Test 11";
+assert es.getGoals()[0] == 3 && es.getGoals()[1] == 2 && es.getGoals()[2] == 1 : "Test 12";
+assert es.getPoints() == 3 : "Test 13";
 
 table.sortCountries();
-for(Country c: countries) {
-        str += c.getName();
-}
-assert str.equals("SpanienDeutschland"): "Test 5";
+cArr = table.getCountryArray();
+assert cArr[0].equals(es) && cArr[1].equals(de) : "Test 14";
 
 
 
