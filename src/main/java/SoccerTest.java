@@ -1,3 +1,4 @@
+/*
 /o Country.java
 /o ICountry.java
 /o Match.java
@@ -8,7 +9,8 @@ System.out.println("Running tests ...");
 try {
 assert false;
 System.out.println("Bitte asserts aktivieren: jshell -R-ea");
-} catch (AssertionError e) { /* Wenn der Error geworfen wird, ist alles gut */ }
+} catch (AssertionError e) { // Wenn der Error geworfen wird, ist alles gut
+}
 
 
 Country de = new Country("Deutschland");
@@ -90,4 +92,5 @@ assert cArr[0].equals(es) && cArr[1].equals(de) : "Test 14";
         assert n.getFloat() == 7.0f && n.toString().equals("7") : "Test 13";
         assert n.put('1');
         assert n.getFloat() == 71.0f && n.toString().equals("71") : "Test 14";
+
         */

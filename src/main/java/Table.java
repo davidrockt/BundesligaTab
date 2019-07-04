@@ -3,24 +3,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class Table {
+public class Table implements ITable{
     private int size;
     private List<Country> countries = new ArrayList<>();
 
     public Table(Map<String, Country> countryArr) {
         countries.addAll(countryArr.values());
-        // Country[] c = (Country[]) getCountries().toArray();
         System.out.println("countries = " + countries);
     }
 
+    @Override
     public void sortCountries() {
         Collections.sort(countries);
     }
 
+    @Override
     public List<Country> getCountries() {
         return countries;
     }
 
+    @Override
     public Country[] getCountryArray() {
         return countries.toArray(new Country[countries.size()]);
     }
