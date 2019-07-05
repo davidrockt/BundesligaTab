@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Country implements ICountry, Comparable<Country> {
+public class Country implements Comparable<Country> {
 
     private String name;
     private int gamesPlayed = 0;
@@ -49,7 +49,6 @@ public class Country implements ICountry, Comparable<Country> {
             case 0:
                 winLoose[2] += 1;
                 points++;
-                getGoals().equals(new int[]{0, 0, 0});
                 break;
             case -1:
                 winLoose[1] += 1;

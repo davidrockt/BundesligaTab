@@ -30,7 +30,6 @@ public class App {
 
         app.ws("/livematch", ws -> {
             ws.onConnect(session -> {
-
                 sessions.put(session, "" + sessions.size());
                 System.out.println("Connected: " + sessions.get(session));
             });
@@ -39,6 +38,7 @@ public class App {
                 System.out.println("message = " + message);
                 // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"2\",\"goals2\":\"1\"}"
 
+                /*
                 String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
                 System.out.println("msg = " + msg);
                 String[] msgs = msg.split("[,:]");
@@ -49,6 +49,10 @@ public class App {
                 int goals1 = Integer.parseInt(msgs[5]);
                 int goals2 = Integer.parseInt(msgs[7]);
                 Match newMatch = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
+                 */
+
+                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, gb);
+                simMatch.start();
                 System.out.println("table.toString() = " + table.toString());
                 broadcastMessage(table.toString());
             });

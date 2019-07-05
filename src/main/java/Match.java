@@ -5,8 +5,7 @@ public class Match {
     public Match(Country team1, Country team2, int goals1, int goals2) {
         System.out.println("team1 = " + team1);
         System.out.println("goals1 = " + goals1);
-        team1.update(goals1, goals2);
-        team2.update(goals2, goals1);
+
 
         this.team1 = team1;
         this.team2 = team2;
@@ -18,6 +17,11 @@ public class Match {
     public Match(String input) {
         this.bla = input;
     }*/
+
+    public void update() {
+        team1.update(goals1, goals2);
+        team2.update(goals2, goals1);
+    }
 
     public Country getTeam1() {
         return team1;

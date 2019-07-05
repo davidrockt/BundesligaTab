@@ -57,13 +57,13 @@
 </table></div>
 <form id="addgame">
     <label>Füge neues Spiel hinzu:
-        <select name="country1" id="country1">
+        <select name="country0" id="country0">
             <option value="de">Deutschland</option>
             <option value="gb">England</option>
             <option value="es">Spanien</option>
             <option value="br">Brasilien</option>
         </select>
-        <select name="country2" id="country2">
+        <select name="country1" id="country1">
             <option value="br">Brasilien</option>
             <option value="gb">England</option>
             <option value="de">Deutschland</option>
@@ -78,13 +78,13 @@
 </form>
 <label>
     Simuliere ein Spiel:
-    <select name="country1" id="simcountry1">
+    <select name="country0" id="simcountry1">
         <option value="de">Deutschland</option>
         <option value="gb">England</option>
         <option value="es">Spanien</option>
         <option value="br">Brasilien</option>
     </select>
-    <select name="country2" id="simcountry2">
+    <select name="country1" id="simcountry2">
         <option value="br">Brasilien</option>
         <option value="gb">England</option>
         <option value="de">Deutschland</option>
@@ -120,8 +120,8 @@
 
     function addGame() {
 
-        sendRequestGET('addgame', 'country1=' + document.getElementById('country1').value +
-                        '&country2=' + document.getElementById('country2').value +
+        sendRequestGET('addgame', 'country0=' + document.getElementById('country0').value +
+                        '&country1=' + document.getElementById('country1').value +
                         '&goals1=' + document.getElementById('goals1').value +
                         '&goals2=' + document.getElementById('goals2').value);
     }
@@ -148,8 +148,8 @@
     */
 
     function sendAndClear(message) {
-        var json = JSON.stringify({'country1': document.getElementById('country1').value,
-            'country2': document.getElementById('country2').value,
+        var json = JSON.stringify({'country0': document.getElementById('country0').value,
+            'country1': document.getElementById('country1').value,
             'goals1': document.getElementById('goals1').value,
             'goals2': document.getElementById('goals2').value});
         console.log(json);

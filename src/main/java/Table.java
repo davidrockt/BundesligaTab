@@ -31,6 +31,18 @@ public class Table implements ITable{
     }
 
     @Override
+    public void update(Match match) {
+        if(!countries.contains(match.getTeam1()) || !countries.contains(match.getTeam2()))
+            throw new IllegalArgumentException("Land ist nicht in der Tabelle enthalten");
+        match.update();
+    }
+
+    @Override
+    public void liveUpdate(SimulatedLiveMatch simMatch) {
+
+    }
+
+    @Override
     public String toString() {
         sortCountries();
         StringBuilder str = new StringBuilder("<thead>\n" +
