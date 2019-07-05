@@ -3,5 +3,5 @@ import java.util.List;
 public interface ITable {
     void sortCountries();
     List<Country> getCountries();
-    Country[] getCountryArray();
+    Country getCountryOnPosition(int position);
 }

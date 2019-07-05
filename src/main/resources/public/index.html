@@ -76,6 +76,26 @@
         <input type="button" onclick="sendAndClear()" value="FERTIG!">
     </label>
 </form>
+<label>
+    Simuliere ein Spiel:
+    <select name="country1" id="simcountry1">
+        <option value="de">Deutschland</option>
+        <option value="gb">England</option>
+        <option value="es">Spanien</option>
+        <option value="br">Brasilien</option>
+    </select>
+    <select name="country2" id="simcountry2">
+        <option value="br">Brasilien</option>
+        <option value="gb">England</option>
+        <option value="de">Deutschland</option>
+        <option value="es">Spanien</option>
+    </select>
+    <button onclick="sendAndClear()"> Los geht's! </button>
+    Tore:
+    <div id="simgoals1">0</div>
+     :
+    <div id="simgoals2">0</div>
+</label>
 <!-- <button onclick="loadTable()">Do Something</button> -->
 </body>
 

@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 public class Table implements ITable{
-    private int size;
     private List<Country> countries = new ArrayList<>();
 
     public Table(Map<String, Country> countryArr) {
         countries.addAll(countryArr.values());
         System.out.println("countries = " + countries);
+    }
+
+    public int getSize() {
+        return countries.size();
     }
 
     @Override
@@ -23,8 +26,8 @@ public class Table implements ITable{
     }
 
     @Override
-    public Country[] getCountryArray() {
-        return countries.toArray(new Country[countries.size()]);
+    public Country getCountryOnPosition(int position) {
+        return countries.toArray(new Country[countries.size()])[position];
     }
 
     @Override

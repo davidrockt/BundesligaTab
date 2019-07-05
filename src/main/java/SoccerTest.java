@@ -35,7 +35,7 @@ Table table = new Table(countries);
 
 // Test für richtiges Sortieren
 table.sortCountries();
-Country[] cArr = table.getCountryArray(); // (Country[]) table.getCountries().toArray();
+Country[] cArr = table.getCountryOnPosition(); // (Country[]) table.getCountries().toArray();
 assert cArr[0].equals(de) && cArr[1].equals(es) : "Test 9";
 
 es.update(3, 2);
@@ -45,7 +45,7 @@ assert es.getGoals()[0] == 3 && es.getGoals()[1] == 2 && es.getGoals()[2] == 1 :
 assert es.getPoints() == 3 : "Test 13";
 
 table.sortCountries();
-cArr = table.getCountryArray();
+cArr = table.getCountryOnPosition();
 assert cArr[0].equals(es) && cArr[1].equals(de) : "Test 14";
 
 

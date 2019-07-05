@@ -36,7 +36,6 @@ public class App {
             });
 
             ws.onMessage((session, message) -> {
-                System.out.println("Hello");
                 System.out.println("message = " + message);
                 // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"2\",\"goals2\":\"1\"}"
 
