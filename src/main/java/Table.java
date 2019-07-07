@@ -39,7 +39,9 @@ public class Table implements ITable{
 
     @Override
     public void liveUpdate(SimulatedLiveMatch simMatch) {
-
+        if(!countries.contains(simMatch.getCountry0()) || !countries.contains(simMatch.getCountry1()))
+            throw new IllegalArgumentException("Land ist nicht in der Tabelle enthalten");
+        simMatch.update();
     }
 
     @Override

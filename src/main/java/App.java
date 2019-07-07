@@ -36,9 +36,41 @@ public class App {
 
             ws.onMessage((session, message) -> {
                 System.out.println("message = " + message);
+
+                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, gb);
+                simMatch.start();
+
+                for(int i = 0; !simMatch.isMatchFinished() && i < 50; i++) {
+                    try {
+                        Thread.sleep(2000);
+                        table.liveUpdate(simMatch);
+                        broadcastMessage(table.toString());
+                    }
+                    catch(InterruptedException e) {
+                        System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+                    }
+                }
+
+
+                // System.out.println("table.toString() = " + table.toString());
+            });
+            ws.onClose((session, status, message) -> {
+                System.out.println("Disconnected: " + sessions.get(session));
+                sessions.remove(session);
+            });
+        });
+
+        app.ws("/addmatch", ws -> {
+            ws.onConnect(session -> {
+                sessions.put(session, "" + sessions.size());
+                System.out.println("Connected: " + sessions.get(session));
+            });
+
+            ws.onMessage((session, message) -> {
+                System.out.println("message = " + message);
                 // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"2\",\"goals2\":\"1\"}"
 
-                /*
+
                 String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
                 System.out.println("msg = " + msg);
                 String[] msgs = msg.split("[,:]");
@@ -49,12 +81,9 @@ public class App {
                 int goals1 = Integer.parseInt(msgs[5]);
                 int goals2 = Integer.parseInt(msgs[7]);
                 Match newMatch = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
-                 */
 
-                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, gb);
-                simMatch.start();
-                System.out.println("table.toString() = " + table.toString());
-                broadcastMessage(table.toString());
+
+                // System.out.println("table.toString() = " + table.toString());
             });
             ws.onClose((session, status, message) -> {
                 System.out.println("Disconnected: " + sessions.get(session));
