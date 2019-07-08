@@ -43,7 +43,7 @@ public class Table implements ITable{
     public JSONObject liveUpdate(SimulatedLiveMatch simMatch) {
         if(!countries.contains(simMatch.getCountry0()) || !countries.contains(simMatch.getCountry1()))
             throw new IllegalArgumentException("Land ist nicht in der Tabelle enthalten");
-        simMatch.update();
+        simMatch.liveUpdate();
         JSONObject json = new JSONObject();
         json.put("goals1", simMatch.getGoals0());
         json.put("goals2", simMatch.getGoals1());

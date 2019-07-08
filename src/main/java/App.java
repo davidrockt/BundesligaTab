@@ -41,7 +41,7 @@ public class App {
                 SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, gb);
                 simMatch.start();
 
-                for(int i = 0; !simMatch.isMatchFinished() && i < 50; i++) {
+                for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);
                         JSONObject json = new JSONObject();

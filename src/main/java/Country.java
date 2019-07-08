@@ -45,25 +45,74 @@ public class Country implements Comparable<Country> {
         this.goals[1] += goalsAgainst;
         this.goals[2] += goals - goalsAgainst;
         gamesPlayed++;
-        switch (Long.signum(goals - goalsAgainst)) {
+        switch (points(goals, goalsAgainst)) {
             case 0:
-                winLoose[2] += 1;
-                points++;
-                break;
-            case -1:
                 winLoose[1] += 1;
                 break;
             case 1:
+                winLoose[2] += 1;
+                points++;
+                break;
+            case 3:
                 winLoose[0] += 1;
                 points += 3;
                 break;
         }
     }
 
-    public void liveUpdate(int newGoals, int newGoalsAgainst) {
-        this.goals[0] += newGoals;
-        this.goals[1] += newGoalsAgainst;
-        this.goals[2] += newGoals - newGoalsAgainst;
+    public void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted) {
+        if(!alreadyStarted) {
+            points++;
+            gamesPlayed++;
+        }
+        this.goals[0] += newGoals - oldGoals;
+        this.goals[1] += newGoalsAgainst - oldGoalsAgainst;
+        this.goals[2] += newGoals - oldGoals - newGoalsAgainst + oldGoalsAgainst;
+        switch (points(newGoals, newGoalsAgainst) - points(oldGoals, oldGoalsAgainst)) {
+            case 3:
+                winLoose[0] += 1;
+                winLoose[1] -= 1;
+                points += 3;
+                break;
+            case 2:
+                winLoose[0] += 1;
+                winLoose[2] -= 1;
+                points += 2;
+                break;
+            case 1:
+                winLoose[2] += 1;
+                winLoose[1] -= 1;
+                points += 2;
+                break;
+            case -1:
+                winLoose[1] += 1;
+                winLoose[2] -= 1;
+                points -= 1;
+                break;
+            case -2:
+                winLoose[2] += 1;
+                winLoose[0] -= 1;
+                points -= 2;
+                break;
+            case -3:
+                winLoose[1] += 1;
+                winLoose[0] -= 1;
+                points -= 3;
+                break;
+        }
+    }
+
+    public int points(int goals, int goalsAgainst) {
+        int result = 0;
+        switch (Long.signum(goals - goalsAgainst)) {
+            case 0:
+                result++;
+                break;
+            case 1:
+                result += 3;
+                break;
+        }
+        return result;
     }
 
     @Override

@@ -48,9 +48,14 @@ public class SimulatedLiveMatch extends Thread{
     }
 
     public void update() {
-        System.out.println("----- LIVE ----");
+        // System.out.println("----- LIVE ----");
         country0.update(goals.get(0), goals.get(1));
         country1.update(goals.get(1), goals.get(0));
+    }
+
+    public void liveUpdate() {
+        country0.liveUpdate(goals.get(0), goals.get(1));
+        country1.liveUpdate(goals.get(1), goals.get(0));
     }
 
     @Override
