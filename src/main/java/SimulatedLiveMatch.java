@@ -37,7 +37,7 @@ public class SimulatedLiveMatch extends Thread{
         return goals;
     }
 
-    public boolean isMatchFinished() {
+    public boolean isFinished() {
         return matchFinished;
     }
 

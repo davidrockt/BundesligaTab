@@ -146,11 +146,12 @@
     }
 
     function updateTable(msg) { // Update table
-        //let data = JSON.parse(msg.data);
+        let data = JSON.parse(msg.data);
         console.log("updateTable");
         console.log(msg);
+        console.log(data);
         // id("table").insertAdjacentHTML("afterbegin", data.userMessage);
-        document.getElementById('table').innerHTML = msg.data;
+        document.getElementById('table').innerHTML = data.livescore.table;
     }
     //
     //
