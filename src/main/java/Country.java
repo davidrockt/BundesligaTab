@@ -60,6 +60,12 @@ public class Country implements Comparable<Country> {
         }
     }
 
+    public void liveUpdate(int newGoals, int newGoalsAgainst) {
+        this.goals[0] += newGoals;
+        this.goals[1] += newGoalsAgainst;
+        this.goals[2] += newGoals - newGoalsAgainst;
+    }
+
     @Override
     public String toString() {
         return "Country{" +

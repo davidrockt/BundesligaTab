@@ -1,7 +1,6 @@
 import io.javalin.Javalin;
-import io.javalin.json.JavalinJson;
 import io.javalin.websocket.WsSession;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,18 +37,16 @@ public class App {
 
             ws.onMessage((session, message) -> {
                 System.out.println("message = " + message);
-                JSONObject json = new JSONObject();
 
                 SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, gb);
                 simMatch.start();
 
-                for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
+                for(int i = 0; !simMatch.isMatchFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);
-                        table.liveUpdate(simMatch);
+                        JSONObject json = new JSONObject();
+                        json.put("livematch", table.liveUpdate(simMatch));
                         json.put("table", table.toString());
-                        json.put("livescore", table.liveScore(simMatch));
-
                         broadcastMessage(json);
                     }
                     catch(InterruptedException e) {
@@ -111,10 +108,9 @@ public class App {
     }
 
     private static void broadcastMessage(JSONObject message) {
-        //sessions.keySet().forEach(ses -> {
-        sessions.keySet().stream().forEach(session -> {
-            System.out.println("sessions.get(ses) = " + sessions.get(session));
-            session.send(JavalinJson.toJson(message.toString()));
+        sessions.keySet().forEach(ses -> {
+            System.out.println("sessions.get(ses) = " + sessions.get(ses));
+            ses.send(message.toJSONString());
         });
     }
 }

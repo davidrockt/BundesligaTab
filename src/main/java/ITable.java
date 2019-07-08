@@ -1,3 +1,5 @@
+import org.json.simple.JSONObject;
+
 import java.util.List;
 
 public interface ITable {
@@ -5,5 +7,5 @@ public interface ITable {
     List<Country> getCountries();
     Country getCountryOnPosition(int position);
     void update(Match match);
-    void liveUpdate(SimulatedLiveMatch simMatch);
+    JSONObject liveUpdate(SimulatedLiveMatch simMatch);
 }

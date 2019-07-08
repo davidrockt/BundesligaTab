@@ -148,16 +148,17 @@
     function updateTable(msg) { // Update table
         let data = JSON.parse(msg.data);
         console.log("updateTable");
-        console.log(msg);
         console.log(data);
         // id("table").insertAdjacentHTML("afterbegin", data.userMessage);
-        document.getElementById('table').innerHTML = data.livescore.table;
+        document.getElementById('simgoals1').innerHTML = data.livematch.goals1;
+        document.getElementById('simgoals2').innerHTML = data.livematch.goals2;
+        document.getElementById('table').innerHTML = data.table;
     }
     //
     //
     // Kopie Ende
 
-    // Kopiert von:
+    /* Kopiert von:
     // https://code.tutsplus.com/tutorials/real-time-sports-application-using-nodejs--cms-30594
     // refresh data
     setInterval(function() {
@@ -171,6 +172,8 @@
             console.log('Last updated: ' + new Date());
         });
     }, 300000);
+    Kopie Ende
+     */
 
 </script>
 </html>
