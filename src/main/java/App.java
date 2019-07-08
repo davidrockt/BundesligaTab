@@ -1,5 +1,6 @@
 import io.javalin.Javalin;
 import io.javalin.websocket.WsSession;
+import org.json.simple.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,8 +44,10 @@ public class App {
                 for(int i = 0; !simMatch.isMatchFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);
-                        table.liveUpdate(simMatch);
-                        broadcastMessage(table.toString());
+                        JSONObject json = new JSONObject();
+                        json.put("livematch", table.liveUpdate(simMatch));
+                        json.put("table", table.toString());
+                        broadcastMessage(json);
                     }
                     catch(InterruptedException e) {
                         System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
@@ -104,10 +107,10 @@ public class App {
         });
     }
 
-    private static void broadcastMessage(String message) {
+    private static void broadcastMessage(JSONObject message) {
         sessions.keySet().forEach(ses -> {
             System.out.println("sessions.get(ses) = " + sessions.get(ses));
-            ses.send(message);
+            ses.send(message.toJSONString());
         });
     }
 }

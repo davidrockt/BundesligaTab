@@ -1,3 +1,5 @@
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,11 +40,17 @@ public class Table implements ITable{
     }
 
     @Override
-    public void liveUpdate(SimulatedLiveMatch simMatch) {
+    public JSONObject liveUpdate(SimulatedLiveMatch simMatch) {
         if(!countries.contains(simMatch.getCountry0()) || !countries.contains(simMatch.getCountry1()))
             throw new IllegalArgumentException("Land ist nicht in der Tabelle enthalten");
         simMatch.update();
+        JSONObject json = new JSONObject();
+        json.put("goals1", simMatch.getGoals0());
+        json.put("goals2", simMatch.getGoals1());
+        return json;
     }
+
+
 
     @Override
     public String toString() {
