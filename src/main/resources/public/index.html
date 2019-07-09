@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Bundesliga Tabelle</title>
     <style>
-        /*background:url()*/
+        /*background:url()
+        https://unsplash.com/photos/nPCiBaK8WPk
+        Photo by Sylwia Pietruszka on Unsplash*/
         .datagrid table {
             border-collapse: collapse; text-align: left; width: 500px; }
         .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif;
@@ -96,10 +98,7 @@
         <option value="es">Spanien</option>
     </select>
     <button onclick="sendAndClear()"> Los geht's! </button>
-    Tore:
-    <div id="simgoals1">0</div>
-     :
-    <div id="simgoals2">0</div>
+    Tore: <div id="simgoals1">0</div> : <div id="simgoals2">0</div>
 </label>
 <!-- <button onclick="loadTable()">Do Something</button> -->
 </body>
@@ -143,10 +142,8 @@
     ws.onclose = () => alert("WebSocket connection closed");
 
     function sendAndClear() {
-        var json = JSON.stringify({'country0': document.getElementById('country0').value,
-            'country1': document.getElementById('country1').value,
-            'goals1': document.getElementById('goals1').value,
-            'goals2': document.getElementById('goals2').value});
+        var json = JSON.stringify({'country0': document.getElementById('simcountry1').value,
+            'country1': document.getElementById('simcountry2').value});
         ws.send(JSON.stringify(json));
     }
 

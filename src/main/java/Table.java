@@ -29,7 +29,7 @@ public class Table implements ITable{
 
     @Override
     public Country getCountryOnPosition(int position) {
-        return countries.toArray(new Country[countries.size()])[position];
+        return countries.toArray(new Country[0])[position];
     }
 
     @Override

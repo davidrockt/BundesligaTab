@@ -13,11 +13,6 @@ public class Match {
         this.goals2 = goals2;
     }
 
-    /* "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"3\",\"goals2\":\"1\"}"
-    public Match(String input) {
-        this.bla = input;
-    }*/
-
     public void update() {
         team1.update(goals1, goals2);
         team2.update(goals2, goals1);

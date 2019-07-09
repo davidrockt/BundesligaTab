@@ -6,7 +6,7 @@ Die Anwendung "SoccerTab" stellt eine Fußball-Tabelle dar, die sich automatisch
 
 ### Screenshot zur Anwendung
 
-todo
+![Alt-Text](src/main/resources/public/screenshot2.png)
 
 ### Projektaufbau
 
