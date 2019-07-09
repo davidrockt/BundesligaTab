@@ -61,11 +61,15 @@ public class Country implements Comparable<Country> {
     }
 
     public void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted) {
+        System.out.println("" + getName() + " hat jetzt ...");
         if(!alreadyStarted) {
+            winLoose[2]++;
             points++;
+            System.out.println("... 1 Punkt mehr ...");
             gamesPlayed++;
         }
         this.goals[0] += newGoals - oldGoals;
+        System.out.println("...  " + (newGoals - oldGoals) + " Tor(e) mehr ...");
         this.goals[1] += newGoalsAgainst - oldGoalsAgainst;
         this.goals[2] += newGoals - oldGoals - newGoalsAgainst + oldGoalsAgainst;
         switch (points(newGoals, newGoalsAgainst) - points(oldGoals, oldGoalsAgainst)) {
@@ -73,33 +77,40 @@ public class Country implements Comparable<Country> {
                 winLoose[0] += 1;
                 winLoose[1] -= 1;
                 points += 3;
+                System.out.println("... 3 Punkte mehr ...");
                 break;
             case 2:
                 winLoose[0] += 1;
                 winLoose[2] -= 1;
                 points += 2;
+                System.out.println("... 2 Punkte mehr ...");
                 break;
             case 1:
                 winLoose[2] += 1;
                 winLoose[1] -= 1;
                 points += 2;
+                System.out.println("... 1 Punkt mehr ...");
                 break;
             case -1:
                 winLoose[1] += 1;
                 winLoose[2] -= 1;
                 points -= 1;
+                System.out.println("... 1 Punkt weniger ...");
                 break;
             case -2:
                 winLoose[2] += 1;
                 winLoose[0] -= 1;
                 points -= 2;
+                System.out.println("... 2 Punkte weniger ...");
                 break;
             case -3:
                 winLoose[1] += 1;
                 winLoose[0] -= 1;
                 points -= 3;
+                System.out.println("... 3 Punkte weniger ...");
                 break;
         }
+        System.out.println(toString());
     }
 
     public int points(int goals, int goalsAgainst) {

@@ -28,11 +28,11 @@ public class SimulatedLiveMatch extends Thread{
     }
 
     public int getGoals0() {
-        return goals.get(0);
+        return newGoals.get(0);
     }
 
     public int getGoals1() {
-        return goals.get(1);
+        return newGoals.get(1);
     }
 
     public Map<Integer, Integer> getGoals() {
@@ -53,9 +53,10 @@ public class SimulatedLiveMatch extends Thread{
         country1.update(goals.get(1), goals.get(0));
     }
 
-    public void liveUpdate() {
-        country0.liveUpdate(goals.get(0), goals.get(1));
-        country1.liveUpdate(goals.get(1), goals.get(0));
+    public void liveUpdate(boolean alreadyStarted) {
+        System.out.println("Neuer Spielstand: DE - GB jetzt " + newGoals.get(0) + " - " + newGoals.get(1));
+        country0.liveUpdate(goals.get(0), goals.get(1), newGoals.get(0), newGoals.get(1), alreadyStarted);
+        country1.liveUpdate(goals.get(1), goals.get(0), newGoals.get(1), newGoals.get(0), alreadyStarted);
     }
 
     @Override
@@ -63,11 +64,12 @@ public class SimulatedLiveMatch extends Thread{
         for(int i = 0; i < 5; i++) {
             try {
                 sleep(1000 * r.nextInt(8));
+                goals.put(newGoals.get(0), newGoals.get(1));
                 idxNextGoal = r.nextInt(2);
                 System.out.println("idx = " + idxNextGoal);
-                goals.put(idxNextGoal, goals.get(idxNextGoal) + 1);
-                System.out.println("goals.get(0) = " + goals.get(0));
-                System.out.println("goals.get(1) = " + goals.get(1));
+                newGoals.put(idxNextGoal, goals.get(idxNextGoal) + 1);
+                //System.out.println("goals.get(0) = " + newGoals.get(0));
+                //System.out.println("goals.get(1) = " + newGoals.get(1));
             }
             catch(InterruptedException e) {
                 System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));

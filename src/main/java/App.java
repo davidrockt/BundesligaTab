@@ -40,12 +40,13 @@ public class App {
 
                 SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, gb);
                 simMatch.start();
+                table.liveUpdate(simMatch, false);
 
                 for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);
                         JSONObject json = new JSONObject();
-                        json.put("livematch", table.liveUpdate(simMatch));
+                        json.put("livematch", table.liveUpdate(simMatch, true));
                         json.put("table", table.toString());
                         broadcastMessage(json);
                     }

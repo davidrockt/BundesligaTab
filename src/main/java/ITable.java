@@ -7,5 +7,5 @@ public interface ITable {
     List<Country> getCountries();
     Country getCountryOnPosition(int position);
     void update(Match match);
-    JSONObject liveUpdate(SimulatedLiveMatch simMatch);
+    JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted);
 }

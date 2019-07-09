@@ -40,10 +40,11 @@ public class Table implements ITable{
     }
 
     @Override
-    public JSONObject liveUpdate(SimulatedLiveMatch simMatch) {
+    public JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted) {
         if(!countries.contains(simMatch.getCountry0()) || !countries.contains(simMatch.getCountry1()))
             throw new IllegalArgumentException("Land ist nicht in der Tabelle enthalten");
-        simMatch.liveUpdate();
+
+        simMatch.liveUpdate(alreadyStarted);
         JSONObject json = new JSONObject();
         json.put("goals1", simMatch.getGoals0());
         json.put("goals2", simMatch.getGoals1());
