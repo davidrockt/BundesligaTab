@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Bundesliga Tabelle</title>
     <style>
+        /*background:url()*/
         .datagrid table {
             border-collapse: collapse; text-align: left; width: 500px; }
         .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif;
@@ -55,6 +56,8 @@
 
     Ende Tabelleninhalt -->
 </table></div>
+
+
 <form id="addgame">
     <label>Füge neues Spiel hinzu:
         <select name="country0" id="country0">
@@ -73,9 +76,11 @@
         <input id="goals1" type="number" value="2">
          :
         <input id="goals2" type="number" value="1">
-        <input type="button" onclick="sendAndClear()" value="FERTIG!">
+        <input type="button" onclick="addGame()" value="FERTIG!">
     </label>
 </form>
+
+
 <label>
     Simuliere ein Spiel:
     <select name="country0" id="simcountry1">

@@ -88,7 +88,7 @@ public class Country implements Comparable<Country> {
             case 1:
                 winLoose[2] += 1;
                 winLoose[1] -= 1;
-                points += 2;
+                points += 1;
                 System.out.println("... 1 Punkt mehr ...");
                 break;
             case -1:
