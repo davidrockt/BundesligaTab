@@ -1,8 +1,8 @@
 public class Match {
-    private Country team1, team2;
+    private ICountry team1, team2;
     private Integer goals1, goals2;
 
-    public Match(Country team1, Country team2, int goals1, int goals2) {
+    public Match(ICountry team1, ICountry team2, int goals1, int goals2) {
         System.out.println("team1 = " + team1);
         System.out.println("goals1 = " + goals1);
 
@@ -18,19 +18,19 @@ public class Match {
         team2.update(goals2, goals1);
     }
 
-    public Country getTeam1() {
+    public ICountry getTeam1() {
         return team1;
     }
 
-    public void setTeam1(Country team1) {
+    public void setTeam1(ICountry team1) {
         this.team1 = team1;
     }
 
-    public Country getTeam2() {
+    public ICountry getTeam2() {
         return team2;
     }
 
-    public void setTeam2(Country team2) {
+    public void setTeam2(ICountry team2) {
         this.team2 = team2;
     }
 

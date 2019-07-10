@@ -2,110 +2,117 @@
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Objects;
 
-public class Country implements Comparable<Country> {
+public class Country implements ICountry {
 
     private String name;
     private int gamesPlayed = 0;
-    private int[] winLoose = {0, 0, 0};
-    private int[] goals = {0, 0, 0};
+    private WinLooseTie winLooseTie = new WinLooseTie();
+    private Goals goals = new Goals();
     private int points = 0;
 
     Country(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getGamesPlayed() {
         return gamesPlayed;
     }
 
-    public int[] getWinLoose() {
-        return winLoose;
+    @Override
+    public WinLooseTie getWinLooseTie() {
+        return winLooseTie;
     }
 
-    public int[] getGoals() {
+    @Override
+    public Goals getGoals() {
         return goals;
     }
 
+    @Override
     public int getPoints() {
         return points;
     }
 
 
-    public void update(int goals, int goalsAgainst) {
+    @Override
+    public void update(int newGoals, int newGoalsAgainst) {
         System.out.println("Country = " + name);
-        System.out.println("This just in: goals = " + goals + " - " + goalsAgainst);
-        this.goals[0] += goals;
-        this.goals[1] += goalsAgainst;
-        this.goals[2] += goals - goalsAgainst;
+        System.out.println("This just in: goals = " + newGoals + " - " + newGoalsAgainst);
+        this.goals.addGoals(newGoals);
+        System.out.println("goals.getGoals() = " + goals.getGoals());
+        this.goals.addGoalsAgainst(newGoalsAgainst);
+        this.goals.addGoalDiff(newGoals - newGoalsAgainst);
         gamesPlayed++;
-        switch (points(goals, goalsAgainst)) {
+        switch (points(newGoals, newGoalsAgainst)) {
             case 0:
-                winLoose[1] += 1;
+                winLooseTie.addOneLoose();
                 break;
             case 1:
-                winLoose[2] += 1;
+                winLooseTie.addOneTie();
                 points++;
                 break;
             case 3:
-                winLoose[0] += 1;
+                winLooseTie.addOneWin();
                 points += 3;
                 break;
         }
     }
 
+    @Override
     public void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted) {
         System.out.println("" + getName() + " hat jetzt ...");
         if(!alreadyStarted) {
-            winLoose[2]++;
+            winLooseTie.addOneTie();
             points++;
             System.out.println("... 1 Punkt mehr ...");
             gamesPlayed++;
         }
-        this.goals[0] += newGoals - oldGoals;
+        this.goals.addGoals(newGoals - oldGoals);
         System.out.println("...  " + (newGoals - oldGoals) + " Tor(e) mehr ...");
-        this.goals[1] += newGoalsAgainst - oldGoalsAgainst;
-        this.goals[2] += newGoals - oldGoals - newGoalsAgainst + oldGoalsAgainst;
+        this.goals.addGoalsAgainst(newGoalsAgainst - oldGoalsAgainst);
+        this.goals.addGoalDiff(newGoals - oldGoals - newGoalsAgainst + oldGoalsAgainst);
         switch (points(newGoals, newGoalsAgainst) - points(oldGoals, oldGoalsAgainst)) {
             case 3:
-                winLoose[0] += 1;
-                winLoose[1] -= 1;
+                winLooseTie.addOneWin();
+                winLooseTie.minusOneLoose();
                 points += 3;
                 System.out.println("... 3 Punkte mehr ...");
                 break;
             case 2:
-                winLoose[0] += 1;
-                winLoose[2] -= 1;
+                winLooseTie.addOneWin();
+                winLooseTie.minusOneTie();
                 points += 2;
                 System.out.println("... 2 Punkte mehr ...");
                 break;
             case 1:
-                winLoose[2] += 1;
-                winLoose[1] -= 1;
+                winLooseTie.addOneTie();
+                winLooseTie.minusOneLoose();
                 points += 1;
                 System.out.println("... 1 Punkt mehr ...");
                 break;
             case -1:
-                winLoose[1] += 1;
-                winLoose[2] -= 1;
+                winLooseTie.addOneLoose();
+                winLooseTie.minusOneTie();
                 points -= 1;
                 System.out.println("... 1 Punkt weniger ...");
                 break;
             case -2:
-                winLoose[2] += 1;
-                winLoose[0] -= 1;
+                winLooseTie.addOneTie();
+                winLooseTie.minusOneWin();
                 points -= 2;
                 System.out.println("... 2 Punkte weniger ...");
                 break;
             case -3:
-                winLoose[1] += 1;
-                winLoose[0] -= 1;
+                winLooseTie.addOneLoose();
+                winLooseTie.minusOneWin();
                 points -= 3;
                 System.out.println("... 3 Punkte weniger ...");
                 break;
@@ -113,6 +120,7 @@ public class Country implements Comparable<Country> {
         System.out.println(toString());
     }
 
+    @Override
     public int points(int goals, int goalsAgainst) {
         int result = 0;
         switch (Long.signum(goals - goalsAgainst)) {
@@ -131,17 +139,20 @@ public class Country implements Comparable<Country> {
         return "Country{" +
                 "name='" + name + '\'' +
                 ", gamesPlayed=" + gamesPlayed +
-                ", winLoose=" + Arrays.toString(winLoose) +
-                ", goals=" + Arrays.toString(goals) +
+                ", winLooseTie=" + (winLooseTie) +
+                ", goals=" + (goals) +
                 ", points=" + points +
                 '}';
     }
 
     @Override
-    public int compareTo(@NotNull Country o) {
-        if (o.points != points)
-            return o.points - points;
-        return o.goals[2] - goals[2];
+    public int compareTo(@NotNull ICountry o) {
+        System.out.println("" + o.getName() + " o.getPoints() = " + o.getPoints() + " - " + o.getGoals().getGoalDiff());
+        System.out.println("" + getName() + " getPoints() = " + getPoints() + " - " + getGoals().getGoalDiff());
+        if (o.getPoints() != points)
+            return o.getPoints() - points;
+        // TODO zusätzliche Sortierungskriterien
+        return o.getGoals().getGoalDiff() - goals.getGoalDiff();
     }
 
     @Override
@@ -156,4 +167,6 @@ public class Country implements Comparable<Country> {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+
 }

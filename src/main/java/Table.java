@@ -1,15 +1,17 @@
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class Table implements ITable{
-    private Map<String, Country> countries;
-    private ArrayList<Country> countryList;
+    private Map<String, ICountry> countries;
+    private List<ICountry> countryList;
 
-    public Table(Map<String, Country> countries) {
+    public Table(Map<String, ICountry> countries) {
         this.countries = countries;
-        countryList = (ArrayList<Country>) countries.values();
+        countryList = new ArrayList<>(countries.values());
         System.out.println("countries = " + countries);
     }
 
@@ -20,16 +22,12 @@ public class Table implements ITable{
     @Override
     public void sortCountries() {
         // TODO
-        // countries.values().toArray();
+        Collections.sort(countryList);
     }
 
     @Override
-    public Map<String, Country> getCountries() {
+    public Map<String, ICountry> getCountries() {
         return countries;
-    }
-
-    public Country getCountry(Country c) {
-        return countryList.get(countryList.indexOf(c));
     }
 
     @Override
@@ -61,6 +59,7 @@ public class Table implements ITable{
     @Override
     public String toString() {
         sortCountries();
+        // TODO Pebble
         StringBuilder str = new StringBuilder("<thead>\n" +
                 "        <tr>\n" +
                 "            <th></th> <th>Land</th> <th>Spiele</th> <th>Gewonnen</th> <th>Tore</th> <th>Punkte</th>\n" +
@@ -73,9 +72,9 @@ public class Table implements ITable{
                 "    </tfoot>\n" +
                 "    <tbody>\n");
         int i = 1;
-        for (Country country : countries.values()) {
+        for (ICountry country : countries.values()) {
             str.append("<tr>\n").append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d</td> <td>%d</td> <td>%d</td>\n",
-                    i, country.getName(), country.getGamesPlayed(), country.getWinLoose()[0], country.getGoals()[0], country.getPoints())).append("</tr>\n");
+                    i, country.getName(), country.getGamesPlayed(), country.getWinLooseTie().getWin(), country.getGoals().getGoals(), country.getPoints())).append("</tr>\n");
         }
         str.append("    </tbody>");
 

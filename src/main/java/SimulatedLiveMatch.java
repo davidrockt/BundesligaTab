@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class SimulatedLiveMatch extends Thread{
-    private Country country0, country1;
+    private ICountry country0, country1;
     private Map<Integer, Integer> goals;
     private Map<Integer, Integer> newGoals;
     private Random r;
@@ -12,7 +12,7 @@ public class SimulatedLiveMatch extends Thread{
     private boolean newGoalsUpdated = false;
     private int idxNextGoal;
 
-    SimulatedLiveMatch(Country country0, Country country1) {
+    SimulatedLiveMatch(ICountry country0, ICountry country1) {
         this.country0 = country0;
         this.country1 = country1;
         r = new Random();
@@ -20,11 +20,11 @@ public class SimulatedLiveMatch extends Thread{
         newGoals = new HashMap<Integer, Integer>(){{ put(0, 0); put(1, 0); }};
     }
 
-    public Country getCountry0() {
+    public ICountry getCountry0() {
         return country0;
     }
 
-    public Country getCountry1() {
+    public ICountry getCountry1() {
         return country1;
     }
 
