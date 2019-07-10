@@ -63,6 +63,6 @@ public final class FootballTest {
             put("de", de);
             put("es", es);
         }};
-        ITable table = new Table(countries);
+        // ITable table = new Table(countries);
     }
 }

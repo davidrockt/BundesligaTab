@@ -1,10 +1,10 @@
+import java.util.Objects;
 // import org.jetbrains.annotations.NotNull;
 
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 
-public class Country implements ICountry {
+public class Country implements ICountry, Comparable<Country> {
 
     private String name;
     private int gamesPlayed = 0;
@@ -146,21 +146,27 @@ public class Country implements ICountry {
     }
 
     @Override
-    public int compareTo(@NotNull ICountry o) {
+    public int compareTo(Country o) {
         System.out.println("" + o.getName() + " o.getPoints() = " + o.getPoints() + " - " + o.getGoals().getGoalDiff());
         System.out.println("" + getName() + " getPoints() = " + getPoints() + " - " + getGoals().getGoalDiff());
-        if (o.getPoints() != points)
-            return o.getPoints() - points;
+        if (o.getPoints() != points) {
+            System.out.printf("compareto return ----> o.getPoints() - points = %d%n", points - o.getPoints());
+            return points - o.getPoints();
+        }
         // TODO zusätzliche Sortierungskriterien
-        return o.getGoals().getGoalDiff() - goals.getGoalDiff();
+        System.out.println("compareto return ----> o.getGoals().getGoalDiff() - goals.getGoalDiff() = " + (goals.getGoalDiff() - o.getGoals().getGoalDiff()));
+        return goals.getGoalDiff() - o.getGoals().getGoalDiff();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        //if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Country country = (Country) o;
-        return name.equals(country.name);
+        if (((Country) o).getPoints() != points) {
+            return points == ((Country) o).getPoints();
+        }
+        return goals.getGoalDiff() == ((Country) o).getGoals().getGoalDiff();
     }
 
     @Override

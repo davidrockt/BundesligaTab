@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface ITable {
     void sortCountries();
-    Map<String, ICountry> getCountries();
+    Map<String, Country> getCountries();
     Country getCountryOnPosition(int position);
 
     /**

@@ -1,4 +1,4 @@
-public interface ICountry extends Comparable<ICountry> {
+public interface ICountry extends Comparable<Country> {
     String getName();
     int getGamesPlayed();
     WinLooseTie getWinLooseTie();

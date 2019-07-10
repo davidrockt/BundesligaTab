@@ -13,6 +13,8 @@ public class SimulatedLiveMatch extends Thread{
     private int idxNextGoal;
 
     SimulatedLiveMatch(ICountry country0, ICountry country1) {
+        if(country0.getName().equals(country1.getName()))
+            throw new IllegalArgumentException("Land kann nicht gegen sich selbst spielen");
         this.country0 = country0;
         this.country1 = country1;
         r = new Random();
@@ -49,7 +51,6 @@ public class SimulatedLiveMatch extends Thread{
     }
 
     public void update() {
-        // System.out.println("----- LIVE ----");
         country0.update(goals.get(0), goals.get(1));
         country1.update(goals.get(1), goals.get(0));
     }

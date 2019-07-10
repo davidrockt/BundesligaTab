@@ -3,6 +3,8 @@ public class Match {
     private Integer goals1, goals2;
 
     public Match(ICountry team1, ICountry team2, int goals1, int goals2) {
+        if(team1.getName().equals(team2.getName()))
+            throw new IllegalArgumentException("Land kann nicht gegen sich selbst spielen");
         System.out.println("team1 = " + team1);
         System.out.println("goals1 = " + goals1);
 

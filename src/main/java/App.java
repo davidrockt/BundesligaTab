@@ -19,7 +19,7 @@ public class App {
 
         Country de = new Country("Deutschland"), gb = new Country("England"),
                 es = new Country("Spanien"), br = new Country("Brasilien");
-        Map<String, ICountry> countries = new HashMap<String, ICountry>() {{
+        Map<String, Country> countries = new HashMap<String, Country>() {{
             put("de", de);
             put("es", es);
             put("gb", gb);

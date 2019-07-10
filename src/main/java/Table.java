@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Table implements ITable{
-    private Map<String, ICountry> countries;
-    private List<ICountry> countryList;
+    private Map<String, Country> countries;
+    private List<Country> countryList;
 
-    public Table(Map<String, ICountry> countries) {
+    public Table(Map<String, Country> countries) {
         this.countries = countries;
         countryList = new ArrayList<>(countries.values());
         System.out.println("countries = " + countries);
@@ -26,7 +26,7 @@ public class Table implements ITable{
     }
 
     @Override
-    public Map<String, ICountry> getCountries() {
+    public Map<String, Country> getCountries() {
         return countries;
     }
 
@@ -62,7 +62,7 @@ public class Table implements ITable{
         // TODO Pebble
         StringBuilder str = new StringBuilder("<thead>\n" +
                 "        <tr>\n" +
-                "            <th></th> <th>Land</th> <th>Spiele</th> <th>Gewonnen</th> <th>Tore</th> <th>Punkte</th>\n" +
+                "            <th></th> <th>Land</th> <th>Spiele</th> <th>Siege, N, U</th> <th>Tore, GT, TD</th> <th>Punkte</th>\n" +
                 "        </tr>\n" +
                 "    </thead>\n" +
                 "    <tfoot>\n" +
@@ -72,9 +72,10 @@ public class Table implements ITable{
                 "    </tfoot>\n" +
                 "    <tbody>\n");
         int i = 1;
-        for (ICountry country : countries.values()) {
-            str.append("<tr>\n").append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d</td> <td>%d</td> <td>%d</td>\n",
-                    i, country.getName(), country.getGamesPlayed(), country.getWinLooseTie().getWin(), country.getGoals().getGoals(), country.getPoints())).append("</tr>\n");
+        for (ICountry c : countries.values()) {
+            str.append("<tr>\n").append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d / %d / %d</td> <td>%d / %d / %d</td> <td>%d</td>\n",
+                    i++, c.getName(), c.getGamesPlayed(), c.getWinLooseTie().getWin(), c.getWinLooseTie().getLoose(), c.getWinLooseTie().getTie(),
+                    c.getGoals().getGoals(), c.getGoals().getGoalsAgainst(), c.getGoals().getGoalDiff(), c.getPoints())).append("</tr>\n");
         }
         str.append("    </tbody>");
 
