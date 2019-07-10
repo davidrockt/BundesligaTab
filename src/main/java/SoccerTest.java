@@ -1,4 +1,8 @@
-/*
+// Kein Land kann gegen sich selbst spielen
+// WinLoose und Goals als eigene Klasse
+
+
+/o ITable.java
 /o Country.java
 /o Match.java
 /o Table.java

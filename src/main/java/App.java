@@ -25,7 +25,7 @@ public class App {
             put("gb", gb);
             put("br", br);
         }};
-        Table table = new Table(countries);
+        ITable table = new Table(countries);
         Match match = new Match(de, br, 7, 1);
         Match match2 = new Match(gb, es, 3, 2);
 

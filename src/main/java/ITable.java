@@ -1,10 +1,10 @@
 import org.json.simple.JSONObject;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ITable {
     void sortCountries();
-    List<Country> getCountries();
+    Map<String, Country> getCountries();
     Country getCountryOnPosition(int position);
     void update(Match match);
     JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted);
