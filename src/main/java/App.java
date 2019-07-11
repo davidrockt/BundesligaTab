@@ -50,7 +50,7 @@ public class App {
                 SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(country1), countries.get(country2));
                 simMatch.start();
                 table.liveUpdate(simMatch, false);
-//17
+
                 for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);

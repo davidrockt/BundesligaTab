@@ -39,6 +39,7 @@ function sendAndClear() {
     var json = JSON.stringify({'country0': document.getElementById('simcountry1').value,
         'country1': document.getElementById('simcountry2').value});
     ws.send(JSON.stringify(json));
+    // TODO clear!
 }
 
 function updateTable(msg) { // Update table

@@ -1,6 +1,6 @@
 # Projekt: SoccerTab
 
-Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Fr/1, Hb)
+Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Die/1, Hb)
 
 <Inhaltsverzeichnis>
 
@@ -16,12 +16,10 @@ Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Fr/1, Hb)
   aktualisiert.
 
 
-![Screenshot](src/main/resources/public/screenshot2.png)
+![Screenshot](src/main/resources/public/screenshot.png)
 
 
 ## Beschreibung des Projektaufbaus
-
-Das Projekt besteht aus dem funktionalen Anteil mit den Dateien Country.java, Match.java, Table.java, der App.java, die den Javalin-Server aufsetzt, und die index.html, in der die GUI erstellt wird, und die auch den clientseitigen Javascript-Teil enthält.
 
 ### Abgabedateien (LOC)
 
@@ -48,31 +46,82 @@ Verlinkter Dateiname | Testart | Anzahl der Tests
 
 Die Tests werden wie folgt ausgeführt:
 
-<Beschreiben Sie, wie die Tests auszuführen sind.>
+Ich hoffe, das kann ich bis zur Abgabe noch herausfinden. Ich führe die Tests
+in IntelliJ per "Knopfdruck" aus.
 
 ### Aufbau der Anwendung
 
-<Ihre Beschreibung zum Projektaufbau>
+Datei | Aufgabe 
+---------------------|----------
+[App.java](\src\main\java\App.java) | Hier wird der **Javalin-Server** aufgesetzt, und die **Websockets** eingerichtet
+[ICountry.java](\src\main\java\ICountry.java) | Interface für Country (s.u.)
+[Country.java](\src\main\java\Country.java) | Klasse für eine **Mannschaft**, mit Statistiken wie Punkten, Toren, Gegentoren usw
+[ITable.java](\src\main\java\ITable.java) | Interface für Table (s.u.)
+[Table.java](\src\main\java\Table.java) | Klasse für die **Tabelle**, der über den Konstruktor neue Länder hinzugefügt 
+<d>| werden können, und die die enthaltenen Länder sortieren kann, und neue Matches hinzufügen kann
+[Match.java](\src\main\java\Match.java) | Klasse für ein **Match**, das die beteiligten Mannschaften und das End-Ergebnis enthält
+[SimulatedLiveMatch.java](\src\main\java\SimulatedLiveMatch.java) | Klasse für ein simuliertes **Live-Spiel**, das Daten enthält, damit der Tabelle Zwischenstände übergeben werden können, ohne dass Tore oder Punkte doppelt verbucht werden.
+[Goals.java](\src\main\java\Goals.java) | Klasse für die **Tor-Statistik** einer Mannschaft, mit Gegentoren und Tordifferenz
+[WinLooseTie.java](\src\main\java\WinLooseTie.java) | Klasse für die **Sieg-Niederlage**-Unentschieden-Bilanz einer Mannschaft
+[index.html](\src\main\resources\public\index.html) | HTML-Datei, in der die **GUI** definiert wird
+[javascript.js](\src\main\resources\public\javascript.js) | Javascript-Datei, die die Verbindung zwischen GUI und Javalin herstellt.
+
+
 
 ## Dokumentation des implementierten WebAPIs
 
-<Ihre Dokumentation dazu>
+Sowieso | Funktion
+--------|---------
+[App.java](\src\main\java\App.java) | so
+- "/livematch" (WS) | so
+- "/start" | so
+- "/addgame" | so
+
+
+
 Das WebAPI ist durch die Request/Replies und den damit stattfindenden Datenaustausch zu dokumentieren.
 
 ## Dokumentation des Interfaces
 
-<Ihre Dokumentation dazu>
+Sowieso | Funktion
+--------|---------
+[ICountry.java](\src\main\java\ICountry.java) | so
+- String getName(); | gibt den Ländernamen zurück
+- int getGamesPlayed(); | gibt Anzahl gespielter Spiele zurück
+- WinLooseTie getWinLooseTie(); | gibt die Sieg-Niederlage-Unentschieden-Statistik zurück
+- Goals getGoals(); | gibt Goals zurück, das Tore, Gegentore und Tor-Differenz enthält.
+- int getPoints(); | gibt die Punkte aller bisher gespielten Spiele der Mannschaft zurück
+- void update(int goals, int goalsAgainst); | so
+- void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted); | so
+- int points(int goals, int goalsAgainst); | so
+[ITable.java](\src\main\java\ITable.java) | Interface
+- void sortCountries(); | so
+- Map<String, ICountry> getCountries(); | so
+- ICountry getCountryOnPosition(int position); | so
+- void update(Match match); | so
+- JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted); | so
+
 
 ## Technischer Anspruch (TA) und Umsetzung der Features
 
-Ich habe folgende Features verwendet. Die verlinkte Datei zeigt beispielhaft den Einsatz dieses Features in den angegebenen Zeilen im Quellcode.
+Ich habe folgende Features verwendet. Die verlinkte Datei zeigt beispielhaft den Einsatz dieses
+Features in den angegebenen Zeilen im Quellcode.
 
-1. Speicherung/Abruf von Daten im lokalen Dateisystem, [App.java](/src/main/java/tictactoe/App.java) (104-112)
-2. WebSockets, [App.java](/src/main/java/tictactoe/App.java) (204-240)
-3. Validation, [App.java](/src/main/java/tictactoe/App.java) (300-303)
-4. Streams, [App.java](/src/main/java/tictactoe/App.java) (130-135)
+1. WebSockets, [App.java](\src\main\java\App.java) (30-74)
+2. JSON, [javascript.js](\src\main\resources\public\javascript.js) (39-46)
 
-<Ihre Dokumentation zu den Features>
+Über Websockets können mehrere Fenster der Anwendung geöffnet werden und miteinander synchronisiert werden.
+Außerdem ist es eine wichtige Grundlage, dass noch ein Upgrade stattfinden kann, tatsächlich Live-Daten aus
+dem Internet abzurufen.
+
+Per JSON können die Daten der Länder und neue Spielstände sehr unkompliziert übertragen werden.
+
+## Quellennachweis
+
+* Websocket auf Javascript-Seite: https://javalin.io/tutorials/websocket-example
+* https://code.tutsplus.com/tutorials/real-time-sports-application-using-nodejs--cms-30594
+* Hintergrundbild: https://unsplash.com/photos/nPCiBaK8WPk (Photo by Sylwia Pietruszka on Unsplash)
+* Tabelle: http://tablestyler.com/#
 
 
 **Hinweise**: keine

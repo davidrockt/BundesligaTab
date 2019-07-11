@@ -11,6 +11,8 @@ public interface ITable {
     Map<String, ICountry> getCountries();
     ICountry getCountryOnPosition(int position);
 
+    // TODO Methode getPositionof(Country);
+
     /**
      * Gibt den beteiligten Teams ein Update ihrer Statistik-Werte
      *
