@@ -19,15 +19,13 @@ public class App {
 
         Country de = new Country("Deutschland"), gb = new Country("England"),
                 es = new Country("Spanien"), br = new Country("Brasilien");
-        Map<String, Country> countries = new HashMap<String, Country>() {{
+        Map<String, ICountry> countries = new HashMap<String, ICountry>() {{
             put("de", de);
             put("es", es);
             put("gb", gb);
             put("br", br);
         }};
         ITable table = new Table(countries);
-        Match match = new Match(de, br, 7, 1);
-        Match match2 = new Match(gb, es, 3, 2);
 
         app.ws("/livematch", ws -> {
             ws.onConnect(session -> {
@@ -39,7 +37,8 @@ public class App {
                 System.out.println("message = " + message);
                 // "{\"country1\":\"de\",\"country2\":\"br\"}"
 
-
+                // TODO JSON Mapper
+                // JA ICH WEIß, DAS IST GANZ SCHLECHTER STIL WAS ICH HIER IN DEN NÄCHSTEN ZEILEN MACHE :-( ZEITMANGEL....
                 String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
                 System.out.println("msg = " + msg);
                 String[] msgs = msg.split("[,:]");
@@ -51,7 +50,7 @@ public class App {
                 SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(country1), countries.get(country2));
                 simMatch.start();
                 table.liveUpdate(simMatch, false);
-
+//17
                 for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);
@@ -73,37 +72,6 @@ public class App {
                 sessions.remove(session);
             });
         });
-
-        /*app.ws("/addmatch", ws -> {
-            ws.onConnect(session -> {
-                sessions.put(session, "" + sessions.size());
-                System.out.println("Connected: " + sessions.get(session));
-            });
-
-            ws.onMessage((session, message) -> {
-                System.out.println("message = " + message);
-                // "{\"country1\":\"de\",\"country2\":\"br\",\"goals1\":\"2\",\"goals2\":\"1\"}"
-
-
-                String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
-                System.out.println("msg = " + msg);
-                String[] msgs = msg.split("[,:]");
-                Arrays.stream(msgs).forEach(System.out::println);
-
-                String country1 = msgs[1];
-                String country2 = msgs[3];
-                int goals1 = Integer.parseInt(msgs[5]);
-                int goals2 = Integer.parseInt(msgs[7]);
-                Match newMatch = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
-
-
-                // System.out.println("table.toString() = " + table.toString());
-            });
-            ws.onClose((session, status, message) -> {
-                System.out.println("Disconnected: " + sessions.get(session));
-                sessions.remove(session);
-            });
-        });*/
 
         app.get("/start", ctx -> ctx.result(table.toString()));
 

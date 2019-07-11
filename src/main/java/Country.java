@@ -1,10 +1,7 @@
 import java.util.Objects;
-// import org.jetbrains.annotations.NotNull;
-
-// import org.jetbrains.annotations.NotNull;
 
 
-public class Country implements ICountry, Comparable<Country> {
+public class Country implements ICountry {
 
     private String name;
     private int gamesPlayed = 0;
@@ -146,33 +143,32 @@ public class Country implements ICountry, Comparable<Country> {
     }
 
     @Override
-    public int compareTo(Country o) {
-        System.out.println("" + o.getName() + " o.getPoints() = " + o.getPoints() + " - " + o.getGoals().getGoalDiff());
-        System.out.println("" + getName() + " getPoints() = " + getPoints() + " - " + getGoals().getGoalDiff());
+    public int compareTo(ICountry o) {
         if (o.getPoints() != points) {
-            System.out.printf("compareto return ----> o.getPoints() - points = %d%n", points - o.getPoints());
-            return points - o.getPoints();
+            //System.out.printf("compareto return ----> o.getPoints() - points = %d%n", o.getPoints() - points);
+            return o.getPoints() - points;
         }
         // TODO zusätzliche Sortierungskriterien
-        System.out.println("compareto return ----> o.getGoals().getGoalDiff() - goals.getGoalDiff() = " + (goals.getGoalDiff() - o.getGoals().getGoalDiff()));
-        return goals.getGoalDiff() - o.getGoals().getGoalDiff();
+        if (o.getGoals().getGoalDiff() != goals.getGoalDiff())
+            return o.getGoals().getGoalDiff() - goals.getGoalDiff();
+        return o.getName().compareTo(getName());
     }
 
     @Override
     public boolean equals(Object o) {
-        //if (this == o) return true;
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Country country = (Country) o;
-        if (((Country) o).getPoints() != points) {
-            return points == ((Country) o).getPoints();
+        if (country.getPoints() != points) {
+            return points == country.getPoints();
         }
-        return goals.getGoalDiff() == ((Country) o).getGoals().getGoalDiff();
+        if (country.getGoals().getGoalDiff() != goals.getGoalDiff())
+            return country.getGoals().getGoalDiff() == goals.getGoalDiff();
+        return country.getName().equals(getName());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(name);
     }
-
-
 }

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Table implements ITable{
-    private Map<String, Country> countries;
-    private List<Country> countryList;
+    private Map<String, ICountry> countries;
+    private List<ICountry> countryList;
 
-    public Table(Map<String, Country> countries) {
+    public Table(Map<String, ICountry> countries) {
         this.countries = countries;
         countryList = new ArrayList<>(countries.values());
         System.out.println("countries = " + countries);
@@ -26,13 +26,13 @@ public class Table implements ITable{
     }
 
     @Override
-    public Map<String, Country> getCountries() {
+    public Map<String, ICountry> getCountries() {
         return countries;
     }
 
     @Override
-    public Country getCountryOnPosition(int position) {
-        return countries.values().toArray(new Country[0])[position];
+    public ICountry getCountryOnPosition(int position) {
+        return countryList.toArray(new ICountry[0])[position - 1];
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Table implements ITable{
                 "    </tfoot>\n" +
                 "    <tbody>\n");
         int i = 1;
-        for (ICountry c : countries.values()) {
+        for (ICountry c : countryList) {
             str.append("<tr>\n").append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d / %d / %d</td> <td>%d / %d / %d</td> <td>%d</td>\n",
                     i++, c.getName(), c.getGamesPlayed(), c.getWinLooseTie().getWin(), c.getWinLooseTie().getLoose(), c.getWinLooseTie().getTie(),
                     c.getGoals().getGoals(), c.getGoals().getGoalsAgainst(), c.getGoals().getGoalDiff(), c.getPoints())).append("</tr>\n");

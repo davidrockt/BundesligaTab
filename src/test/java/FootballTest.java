@@ -55,7 +55,7 @@ public final class FootballTest {
     }
 
     @Test
-    public void test_table() {
+    public void test_table_with_two() {
         ICountry de = new Country("Deutschland");
         ICountry es = new Country("Spanien");
         // TODO Besser: über table.add() Länder hinzufügen
@@ -63,6 +63,48 @@ public final class FootballTest {
             put("de", de);
             put("es", es);
         }};
-        // ITable table = new Table(countries);
+        ITable table = new Table(countries);
+        // TODO was passiert wenn "countries" leer ist?
+        table.sortCountries();
+        assertEquals(de, table.getCountryOnPosition(1));
+        assertEquals(es, table.getCountryOnPosition(2));
+
+        table.update(new Match(es, de, 2, 1));
+        table.sortCountries();
+        assertEquals(es, table.getCountryOnPosition(1));
+        assertEquals(de, table.getCountryOnPosition(2));
+
+        table.update(new Match(es, de, 0, 1));
+        table.sortCountries();
+        assertEquals(de, table.getCountryOnPosition(1));
+        assertEquals(es, table.getCountryOnPosition(2));
+
+        table.update(new Match(es, de, 1, 1));
+        table.sortCountries();
+        assertEquals(de, table.getCountryOnPosition(1));
+        assertEquals(es, table.getCountryOnPosition(2));
+
+        assertEquals(3, es.getGamesPlayed());
+        assertEquals(1, es.getWinLooseTie().getWin());
+        assertEquals(1, es.getWinLooseTie().getLoose());
+        assertEquals(1, es.getWinLooseTie().getTie());
+        assertEquals(3, es.getGoals().getGoals());
+        assertEquals(3, es.getGoals().getGoalsAgainst());
+        assertEquals(0, es.getGoals().getGoalDiff());
+        assertEquals(4, es.getPoints());
+
+        assertEquals(3, de.getGamesPlayed());
+        assertEquals(1, de.getWinLooseTie().getWin());
+        assertEquals(1, de.getWinLooseTie().getLoose());
+        assertEquals(1, de.getWinLooseTie().getTie());
+        assertEquals(3, de.getGoals().getGoals());
+        assertEquals(3, de.getGoals().getGoalsAgainst());
+        assertEquals(0, de.getGoals().getGoalDiff());
+        assertEquals(4, de.getPoints());
+    }
+
+    @Test
+    public void test_livematch() {
+        // TODO
     }
 }

@@ -3,9 +3,13 @@ import org.json.simple.JSONObject;
 import java.util.Map;
 
 public interface ITable {
+    /**
+     * TODO sortCountries()
+     * Sortiert die Länder nach ihrer gottgegebenen Ordnung :)
+     */
     void sortCountries();
-    Map<String, Country> getCountries();
-    Country getCountryOnPosition(int position);
+    Map<String, ICountry> getCountries();
+    ICountry getCountryOnPosition(int position);
 
     /**
      * Gibt den beteiligten Teams ein Update ihrer Statistik-Werte

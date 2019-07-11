@@ -6,10 +6,18 @@ Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Fr/1, Hb)
 
 ## Kurzbeschreibung
 
-> Die Anwendung "SoccerTab" stellt eine Fußball-Tabelle dar, die sich automatisch mit neuen Ergebnissen aktualisiert. Da dies schwer live zu demonstrieren ist, wird ein Live-Match simuliert und dann per Websocket die Tabelle während des laufenden Spiels aktualisiert.
+> Die Anwendung "SoccerTab" stellt eine Fußball-Tabelle dar,
+  die sich automatisch mit neuen Ergebnissen aktualisiert. Da dies schwer mit LIVE-
+  Spielen zu demonstrieren ist, wird ein Live-Match simuliert und die Tabelle dann
+  während des laufenden Spiels aktualisiert.
+  Es gibt außerdem noch die Möglichkeit fertige Spielstände einzutragen. Es lassen
+  sich mehrere Fenster öffnen, und ein in einem Fenster gestartetes Live-Spiel wird
+  über Websockets in allen Fenstern angezeigt, und die Tabelle entsprechend
+  aktualisiert.
 
 
 ![Screenshot](src/main/resources/public/screenshot2.png)
+
 
 ## Beschreibung des Projektaufbaus
 
@@ -19,15 +27,24 @@ Das Projekt besteht aus dem funktionalen Anteil mit den Dateien Country.java, Ma
 
 Verlinkter Dateiname | Dateiart | LOC
 ---------------------|----------|-----
-[App.java](\src\main\java\App.java) | Java | 25
-[T3.java](https://git.thm.de/dhzb87/JbX/blob/master/TicTacToe.Spielfeld/src/main/java/tictactoe/T3.java) | Java | 54
-[index.html](https://git.thm.de/dhzb87/JbX/blob/master/TicTacToe.Spielfeld/src/main/resources/public/index.html) | HTML | 77
+[App.java](\src\main\java\App.java) | Java | 70
+[ICountry.java](\src\main\java\ICountry.java) | Java | 10
+[Country.java](\src\main\java\Country.java) | Java | 150
+[ITable.java](\src\main\java\ITable.java) | Java | 9
+[Table.java](\src\main\java\Table.java) | Java | 59
+[Match.java](\src\main\java\Match.java) | Java | 38
+[SimulatedLiveMatch.java](\src\main\java\SimulatedLiveMatch.java) | Java | 72
+[Goals.java](\src\main\java\Goals.java) | Java | 40
+[WinLooseTie.java](\src\main\java\WinLooseTie.java) | Java | 40
+[index.html](\src\main\resources\public\index.html) | HTML | 130
+[javascript.js](\src\main\resources\public\javascript.js) | Javascript | 37
+[Screenshot.png](\src\main\resources\public\screenshot.png) | Bild
 
 ### Testdateien (TST)
 
 Verlinkter Dateiname | Testart | Anzahl der Tests
 ---------------------|---------|-----------------
-[Test.java](\src\test\java\FootballTest.java) | JUnit5 | 35
+[FootballTest.java](\src\test\java\FootballTest.java) | JUnit5 | 60
 
 Die Tests werden wie folgt ausgeführt:
 
