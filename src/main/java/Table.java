@@ -1,9 +1,6 @@
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Table implements ITable{
     private Map<String, ICountry> countries;
@@ -31,7 +28,14 @@ public class Table implements ITable{
 
     @Override
     public ICountry getCountryOnPosition(int position) {
-        return countryList.toArray(new ICountry[0])[position - 1];
+        System.out.println("countryList = " + countryList);
+        ICountry[] arr = new ICountry[countryList.size()];
+        int i = 0;
+        for(ICountry c: countryList) {
+            arr[i++] = c;
+        }
+        System.out.println("arr = " + Arrays.toString(arr));
+        return arr[position - 1];
     }
 
     @Override
@@ -42,11 +46,11 @@ public class Table implements ITable{
     }
 
     @Override
-    public JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted) {
+    public JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyUpdated) {
         if(!countries.values().contains(simMatch.getCountry0()) || !countries.values().contains(simMatch.getCountry1()))
             throw new IllegalArgumentException("Land ist nicht in der Tabelle enthalten");
 
-        simMatch.liveUpdate(alreadyStarted);
+        simMatch.liveUpdate(alreadyUpdated);
         JSONObject json = new JSONObject();
         json.put("goals1", simMatch.getGoals0());
         json.put("goals2", simMatch.getGoals1());

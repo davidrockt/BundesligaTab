@@ -71,14 +71,11 @@ public class SimulatedLiveMatch extends Thread{
             try {
                 sleep(1000 * r.nextInt(8));
                 idxNextGoal = r.nextInt(2);
-                System.out.println("idx = " + idxNextGoal);
                 if(newGoalsUpdated) {
                     goals.put(0, newGoals.get(0));
                     goals.put(1, newGoals.get(1));
                 }
                 newGoals.put(idxNextGoal, goals.get(idxNextGoal) + 1);
-                //System.out.println("goals.get(0) = " + newGoals.get(0));
-                //System.out.println("goals.get(1) = " + newGoals.get(1));
                 newGoalsUpdated = false;
             }
             catch(InterruptedException e) {

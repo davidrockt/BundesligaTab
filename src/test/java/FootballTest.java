@@ -21,7 +21,7 @@ public final class FootballTest {
     }
 
     @Test
-    public void test_one_game_at_a_time() {
+    public void test_one_country() {
         ICountry de = new Country("Deutschland");
         // TODO Land kann nicht gegen sich selbst spielen
         de.update(1, 1);
@@ -65,7 +65,6 @@ public final class FootballTest {
             put("es", es);
         }};
         ITable table = new Table(countries);
-        // TODO was passiert wenn "countries" leer ist?
         table.sortCountries();
         assertEquals(de, table.getCountryOnPosition(1));
         assertEquals(es, table.getCountryOnPosition(2));
@@ -107,5 +106,21 @@ public final class FootballTest {
     @Test
     public void test_livematch() {
         // TODO
+        ICountry de = new Country("Deutschland");
+        ICountry es = new Country("Spanien");
+        Map<String, ICountry> countries = new HashMap<String, ICountry>() {{
+            put("de", de);
+            put("es", es);
+        }};
+        ITable table = new Table(countries);
+        SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, es);
+        simMatch.start();
+        table.liveUpdate(simMatch, false);
+        // Da das Spiel am Anfang 0:0 steht, müssen ohne zeitliche Verzögerung beide Mannschaften 1 Punkt haben
+        table.sortCountries();
+        assertEquals(1, de.getWinLooseTie().getTie());
+        assertEquals(1, es.getWinLooseTie().getTie());
+        assertEquals(1, de.getPoints());
+        assertEquals(1, es.getPoints());
     }
 }

@@ -71,6 +71,7 @@ public class Country implements ICountry {
             points++;
             System.out.println("... 1 Punkt mehr ...");
             gamesPlayed++;
+            // TODO von hier aus simMatch.start() ????
         }
         this.goals.addGoals(newGoals - oldGoals);
         System.out.println("...  " + (newGoals - oldGoals) + " Tor(e) mehr ...");
@@ -134,12 +135,13 @@ public class Country implements ICountry {
     @Override
     public String toString() {
         return "Country{" +
-                "name='" + name + '\'' +
+                "name='" + name + "'}";
+        /*+
                 ", gamesPlayed=" + gamesPlayed +
                 ", winLooseTie=" + (winLooseTie) +
                 ", goals=" + (goals) +
                 ", points=" + points +
-                '}';
+                '}';*/
     }
 
     @Override
@@ -151,7 +153,7 @@ public class Country implements ICountry {
         // TODO zusätzliche Sortierungskriterien
         if (o.getGoals().getGoalDiff() != goals.getGoalDiff())
             return o.getGoals().getGoalDiff() - goals.getGoalDiff();
-        return o.getName().compareTo(getName());
+        return getName().compareTo(o.getName());
     }
 
     @Override

@@ -24,8 +24,8 @@ public interface ITable {
      * Gibt den beteiligten Teams ein Live-Update ihrer Statistik-Werte während eines laufenden Spiels
      *
      * @param simMatch
-     * @param alreadyStarted
+     * @param alreadyUpdated
      * @return JSONObject mit dem aktuellen Spielstand
      */
-    JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted);
+    JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyUpdated);
 }
