@@ -103,8 +103,7 @@ public final class SoccerTest {
         ICountry es = new Country("Spanien");
         ITable table = new Table(new ICountry[]{de, es});
         SimulatedLiveMatch simMatch = new SimulatedLiveMatch(de, es);
-        // das funktioniert leider noch nicht :-(
-        /*
+
         simMatch.start();
         table.liveUpdate(simMatch, false);
         // Da das Spiel am Anfang 0:0 steht, müssen ohne zeitliche Verzögerung beide Mannschaften 1 Punkt haben
@@ -113,6 +112,6 @@ public final class SoccerTest {
         assertEquals(1, es.getWinLooseTie().getTie());
         assertEquals(1, de.getPoints());
         assertEquals(1, es.getPoints());
-         */
+        // TODO Live-Spielstände abfragen
     }
 }

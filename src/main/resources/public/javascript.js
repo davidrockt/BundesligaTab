@@ -1,7 +1,6 @@
 var http = new XMLHttpRequest();
 
 function sendRequestGET(path, query) {
-    console.log('path = ' + path);
     http.open('GET', path + '?' + query);
     http.send();
 }
@@ -22,8 +21,8 @@ function addGame() {
         '&goals1=' + document.getElementById('goals1').value +
         '&goals2=' + document.getElementById('goals2').value);
 
-    document.getElementById('goals1').value = '';
-    document.getElementById('goals2').value = '';
+    document.getElementById('goals1').value = '0';
+    document.getElementById('goals2').value = '0';
 }
 
 // Kopie von https://javalin.io/tutorials/websocket-example

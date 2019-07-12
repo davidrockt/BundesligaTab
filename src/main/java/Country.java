@@ -41,10 +41,7 @@ public class Country implements ICountry {
 
     @Override
     public void update(int newGoals, int newGoalsAgainst) {
-        System.out.println("Country = " + name);
-        System.out.println("This just in: goals = " + newGoals + " - " + newGoalsAgainst);
         this.goals.addGoals(newGoals);
-        System.out.println("goals.getGoals() = " + goals.getGoals());
         this.goals.addGoalsAgainst(newGoalsAgainst);
         this.goals.addGoalDiff(newGoals - newGoalsAgainst);
         gamesPlayed++;

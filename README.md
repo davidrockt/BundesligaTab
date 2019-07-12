@@ -117,6 +117,8 @@ Per JSON können die Daten der Länder und neue Spielstände sehr unkompliziert 
 
 ## Projekt SoccerTab
 
+### Start-Bedingungen
+
 Wenn die Anwendung gestartet wird, zeigt sich einem oben gezeigtes Bild:
 
 ![Screenshot](src/main/resources/public/screenshot2.png)
@@ -149,40 +151,15 @@ public class App {
         Country de = new Country("Deutschland"), gb = new Country("England"),
                 es = new Country("Spanien"), br = new Country("Brasilien");
         ITable table = new Table(new Country[]{de, gb, es, br});
-        [...]
+        // [...]
   	}
  }
-
 app.get("/start", ctx -> ctx.result(table.toString()));
 ```
 Wie man sieht, wurden (schon bevor der Get-Request übertragen wurde) in der App.java 4 Objekte vom Typ `Country` erstellt, die die 4 Länder in der Tabelle repräsentieren. Diese wurden anschließend dem Konstruktor des Tabellen-Objekts `table` übergeben.
 
-Es sind also alle Grundlagen gegeben, dass in `/start` per ctx.result() eine fertig initialisierte Tabellen-Repräsentation zurückgegeben werden kann, per toString(). Diese sieht folgendermaßen aus:
-
-```java
-// Table.java
-@Override
-    public String toString() {
-        sortCountries();
-        StringBuilder str = new StringBuilder("<thead>\n" +
-                "  <tr>\n" +
-                "   <th></th><th>Land</th> <th>Spiele</th> <th>Tore</th> <th>Diff.</th> <th>Siege (U, N)</th> <th>Punkte</th>\n" +
-                "  </tr>\n" +
-                " </thead>\n" +
-                "<tbody>\n");
-        int i = 1;
-        for (ICountry c : countryList) {
-            str.append("<tr>\n")
-            	.append(String.format("<td>%d</td> <td>%s</td> <td>%d</td> <td>%d:%d</td> <td>%d</td> <td>%d (%d, %d)</td> <td>%d</td>\n",
-                    i++, c.getName(), c.getGamesPlayed(), c.getGoals().getGoals(), c.getGoals().getGoalsAgainst(), c.getGoals().getGoalDiff(), c.getWinLooseTie().getWin(), c.getWinLooseTie().getTie(), c.getWinLooseTie().getLoose(), c.getPoints())).append("</tr>\n");
-        }
-        str.append("    </tbody>");
-
-        return str.toString();
-    }
-```
-
-Es werden die Statistiken jedes Landes ausgelesen, und der String zusammengesetzt. Am Ende sieht das ganze wieder eleganter aus:
+Es sind also alle Grundlagen gegeben, dass in `/start` per ctx.result() eine fertig initialisierte Tabellen-Repräsentation zurückgegeben werden kann, per toString().
+Es werden die Statistiken jedes Landes ausgelesen, und der String zusammengesetzt. Am Ende sieht das ganze so aus:
 ```html
 <thead>
     <tr>
@@ -274,8 +251,8 @@ Das geht nur, wenn ICountry auch Comparable implementiert:
 ```
 Hier sieht man, dass zuerst nach Punkten, dann nach Tordifferenz und als letztes ganz einfach nach Alphabet sortiert wird.
 
--------LIVE-Match
-So senden wir die Daten zum Live-Match:
+### LIVE-Match
+Mit sendLiveData() wird die Info, wer am Spiel teilnimmt, an den Server gesendet.
 ```java
 function sendLiveData() {
     var json = JSON.stringify({'country0': document.getElementById('simcountry1').value,
@@ -286,7 +263,7 @@ function sendLiveData() {
 }
 ```
 
-So setzen wir das Websocket auf, und nehmen die Live-Daten entgegen.
+In App.java setzen wir das Websocket auf, und nehmen die Daten entgegen und erzeugen ein neues SimulatedLiveMatch-Objekt simMatch. Mit simMatch.start() wird innerhalb von simMatch ein Thread gestartet, der in unregelmäßigen Abständen ein neues Tor einer zufällig gewählten Seite zuordnet.
 ```java
 // App.java
 private static Map<WsSession, String> sessions = new ConcurrentHashMap<>();
@@ -301,34 +278,102 @@ app.ws("/livematch", ws -> {
             	// Ja ich bin mir bewusst, dass diese Zeilen ganz schlechter Stil sind. Leider hat ein Versuch eines Json-Mappers nicht funktioniert
                 String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
                 String[] msgs = msg.split("[,:]");
-                Arrays.stream(msgs).forEach(System.out::println);
 
-                String country1 = msgs[1];
-                String country2 = msgs[3];
-
-                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(country1), countries.get(country2));
+                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(msgs[1]), countries.get(msgs[3]);
                 // Der Thread eines Live-Spiels wird gestartet
                 simMatch.start();
                 table.liveUpdate(simMatch, false);
 
-                for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
-                    try {
-                        Thread.sleep(2000);
-                        JSONObject json = new JSONObject();
-                        json.put("livematch", table.liveUpdate(simMatch, true));
-                        json.put("table", table.toString());
-                        broadcastMessage(json);
-                    }
-                    catch(InterruptedException e) {
-                        System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
-                    }
-                }
+                // [...]
             });
             ws.onClose((session, status, message) -> {
                 sessions.remove(session);
             });
         });
 ```
+Hier kann man sehen, dass in 5 Durchgängen der Thread jeweils zwischen 0 und 8 Sekunden nichts tut, und dann zufällig der Index der Mannschaft ausgewählt wird, die mit einem Tor belohnt wird. Die Unterscheidung zwischen `oldGoals` (alter Spielstand) und `newGoals` (neuer Spielstand) ist übrigens notwendig
+```java
+// SimulatedLiveMatch.java
+private boolean matchFinished = false;
+private boolean newGoalsUpdated = false;
+
+@Override
+public void run() {
+    for(int i = 0; i < 5; i++) {
+        try {
+            sleep(1000 * r.nextInt(8));
+            idxNextGoal = r.nextInt(2);
+            if(newGoalsUpdated) {
+                oldGoals.put(0, newGoals.get(0));
+                oldGoals.put(1, newGoals.get(1));
+            }
+            newGoals.put(idxNextGoal, oldGoals.get(idxNextGoal) + 1);
+            newGoalsUpdated = false;
+        }
+        catch(InterruptedException e) {
+            System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+        }
+    }
+    matchFinished = true;
+}
+```
+Die Unterscheidung zwischen `oldGoals` (alter Spielstand) und `newGoals` (neuer Spielstand) ist übrigens notwendig, damit ein neuer Spielstand korrekt eingelesen werden kann, und keine Punkte oder Tore doppelt vermerkt werden, sondern immer die Differenz geprüft werden kann. Dafür ist die `liveUpdate()`-Methode von ICountry zuständig:
+```java
+@Override
+    public void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted) {
+        if(!alreadyStarted) {
+            winLooseTie.addOneTie();
+            points++;
+            gamesPlayed++;
+        }
+        this.goals.addGoals(newGoals - oldGoals);
+        this.goals.addGoalsAgainst(newGoalsAgainst - oldGoalsAgainst);
+        this.goals.addGoalDiff(newGoals - oldGoals - newGoalsAgainst + oldGoalsAgainst);
+        switch (points(newGoals, newGoalsAgainst) - points(oldGoals, oldGoalsAgainst)) {
+            case 3:
+                winLooseTie.addOneWin();
+                winLooseTie.minusOneLoose();
+                points += 3;
+                break;
+            case 2:
+                winLooseTie.addOneWin();
+                winLooseTie.minusOneTie();
+                points += 2;
+                break;
+            case 1:
+            // [...]
+        }
+    }
+```
+Um zu ermitteln, wie viele Punkte welcher Spielstand ergeben, hilft uns die Methode `points()`. Wenn Spanien zuerst 1:0 gegen Deutschland führt, wird Ihnen 3 Punkte verbucht, und in der Bilanz ein Sieg. Wenn im gleichen Spiel aber Deutschland 1 Tor schießt, müssen Spanien 2 Punkte wieder abgezogen werden (sie bekommen immer noch 1 Punkt für das Unentschieden)
+
+Zurück zur App.java! Wie wir gesehen haben, starten wir den Thread vom Live-Spiel und aktualisieren sofort die Tabelle. Warum, wo doch noch kein "Tor gefallen" ist? Weil es gleich von Anfang an 0:0 steht, und das bedeutet 1 Punkt für jede Mannschaft!!
+
+```java
+app.ws("/livematch", ws -> {
+        ws.onMessage((session, message) -> {
+            // [...]
+            SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(country1), countries.get(country2));
+            simMatch.start();
+            table.liveUpdate(simMatch, false);
+
+            for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
+                try {
+                    Thread.sleep(2000);
+                    JSONObject json = new JSONObject();
+                    json.put("livematch", table.liveUpdate(simMatch, true));
+                    json.put("table", table.toString());
+                    broadcastMessage(json);
+                }
+                catch(InterruptedException e) {
+                    System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+                }
+            }
+        });
+        // [...]
+    });
+```
+Ups, was passiert denn hier?? Naja, die Tore fallen ja immer erst nach einigen Sekunden. Dementsprechend müssen wir auch abwarten und in regelmäßigen Abständen auf einen neuen Spielstand abfragen.
 Der ermittelte Spielstand des laufenden Spiels muss bei den Clients aller aktiven Sessions ankommen:
 ```java
 // App.java

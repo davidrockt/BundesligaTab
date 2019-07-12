@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class SimulatedLiveMatch extends Thread{
     private ICountry country0, country1;
-    private Map<Integer, Integer> goals;
+    private Map<Integer, Integer> oldGoals;
     private Map<Integer, Integer> newGoals;
     private Random r;
     private boolean matchFinished = false;
@@ -18,7 +18,7 @@ public class SimulatedLiveMatch extends Thread{
         this.country0 = country0;
         this.country1 = country1;
         r = new Random();
-        goals = new HashMap<Integer, Integer>(){{ put(0, 0); put(1, 0); }};
+        oldGoals = new HashMap<Integer, Integer>(){{ put(0, 0); put(1, 0); }};
         newGoals = new HashMap<Integer, Integer>(){{ put(0, 0); put(1, 0); }};
     }
 
@@ -38,8 +38,8 @@ public class SimulatedLiveMatch extends Thread{
         return newGoals.get(1);
     }
 
-    public Map<Integer, Integer> getGoals() {
-        return goals;
+    public Map<Integer, Integer> getOldGoals() {
+        return oldGoals;
     }
 
     public boolean isFinished() {
@@ -51,14 +51,14 @@ public class SimulatedLiveMatch extends Thread{
     }
 
     public void update() {
-        country0.update(goals.get(0), goals.get(1));
-        country1.update(goals.get(1), goals.get(0));
+        country0.update(oldGoals.get(0), oldGoals.get(1));
+        country1.update(oldGoals.get(1), oldGoals.get(0));
     }
 
     public void liveUpdate(boolean alreadyStarted) {
         if(newGoalsUpdated) return;
-        country0.liveUpdate(goals.get(0), goals.get(1), newGoals.get(0), newGoals.get(1), alreadyStarted);
-        country1.liveUpdate(goals.get(1), goals.get(0), newGoals.get(1), newGoals.get(0), alreadyStarted);
+        country0.liveUpdate(oldGoals.get(0), oldGoals.get(1), newGoals.get(0), newGoals.get(1), alreadyStarted);
+        country1.liveUpdate(oldGoals.get(1), oldGoals.get(0), newGoals.get(1), newGoals.get(0), alreadyStarted);
         newGoalsUpdated = true;
     }
 
@@ -69,10 +69,10 @@ public class SimulatedLiveMatch extends Thread{
                 sleep(1000 * r.nextInt(8));
                 idxNextGoal = r.nextInt(2);
                 if(newGoalsUpdated) {
-                    goals.put(0, newGoals.get(0));
-                    goals.put(1, newGoals.get(1));
+                    oldGoals.put(0, newGoals.get(0));
+                    oldGoals.put(1, newGoals.get(1));
                 }
-                newGoals.put(idxNextGoal, goals.get(idxNextGoal) + 1);
+                newGoals.put(idxNextGoal, oldGoals.get(idxNextGoal) + 1);
                 newGoalsUpdated = false;
             }
             catch(InterruptedException e) {
