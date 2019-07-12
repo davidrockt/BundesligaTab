@@ -1,9 +1,9 @@
-// Kein Land kann gegen sich selbst spielen
+// Kein Land kann gegen sich selbst spielen CHECK
 // WinLoose und Goals als eigene Klasse CHECK
 // Sortierungskriterien der Tabelle
 // Möglichkeit, der Tabelle über eine table.add(Country) Länder zu adden
-// Countries korrekt sortieren
-// Tabellen-Anzeige: Platz 1, 2, 3, 4
+// Countries korrekt sortieren CHECK
+// Tabellen-Anzeige: Platz 1, 2, 3, 4 CHECK
 /*
 
 /o ITable.java

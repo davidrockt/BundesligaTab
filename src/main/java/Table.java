@@ -21,7 +21,6 @@ public class Table implements ITable{
 
     @Override
     public void sortCountries() {
-        // TODO
         Collections.sort(countryList);
     }
 

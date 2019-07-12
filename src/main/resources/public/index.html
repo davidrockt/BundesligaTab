@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <title>Bundesliga Tabelle</title>
     <style>
-        /* TODO Background Bild */
-        /*background:url()
+        /* TODO Background Bild
+        body {
+            background-image: url("mathias-herheim-mzwMBFUOECQ-unsplash.jpg");
+        }
+
         https://unsplash.com/photos/nPCiBaK8WPk
-        Photo by Sylwia Pietruszka on Unsplash*/
+        Photo by Sylwia Pietruszka on Unsplash
+        https://unsplash.com/photos/mzwMBFUOECQ
+        Photo by Mathias Herheim on Unsplash*/
         .datagrid table {
             border-collapse: collapse; text-align: left; width: 500px; }
         .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif;
@@ -60,7 +65,7 @@
     Ende Tabelleninhalt -->
 </table></div>
 
-
+<br>
 <form id="addgame">
     <label>Füge neues Spiel hinzu:
         <select name="country0" id="country0">
@@ -82,7 +87,7 @@
         <input type="button" onclick="addGame()" value="FERTIG!">
     </label>
 </form>
-
+<br>
 
 <label>
     Simuliere ein Spiel:
@@ -99,9 +104,8 @@
         <option value="es">Spanien</option>
     </select>
     <button onclick="sendAndClear()"> Los geht's! </button>
-    Tore: <div id="simgoals1">0</div> : <div id="simgoals2">0</div>
+    <span id="simgame">Tore: <span id="simgoals1">0</span> : <span id="simgoals2">0</span></span>
 </label>
-<!-- <button onclick="loadTable()">Do Something</button> -->
 </body>
 
 <script type="text/javascript">
@@ -160,22 +164,6 @@
     //
     //
     // Kopie Ende
-
-    /!* Kopiert von:
-    // https://code.tutsplus.com/tutorials/real-time-sports-application-using-nodejs--cms-30594
-    // refresh data
-    setInterval(function() {
-        data.getData().then((result) => {
-            // Update latest results for when new client's connect
-            latestData = result;
-
-            // send it to all connected clients
-            io.emit('data', result);
-
-            console.log('Last updated: ' + new Date());
-        });
-    }, 300000);
-    Kopie Ende
      *!/
 */
 </script>

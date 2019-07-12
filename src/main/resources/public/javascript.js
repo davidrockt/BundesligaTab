@@ -44,9 +44,6 @@ function sendAndClear() {
 
 function updateTable(msg) { // Update table
     let data = JSON.parse(msg.data);
-    console.log("updateTable");
-    console.log(data);
-    // id("table").insertAdjacentHTML("afterbegin", data.userMessage);
     document.getElementById('simgoals1').innerHTML = data.livematch.goals1;
     document.getElementById('simgoals2').innerHTML = data.livematch.goals2;
     document.getElementById('table').innerHTML = data.table;
@@ -54,20 +51,3 @@ function updateTable(msg) { // Update table
 //
 //
 // Kopie Ende
-
-/* Kopiert von:
-// https://code.tutsplus.com/tutorials/real-time-sports-application-using-nodejs--cms-30594
-// refresh data
-setInterval(function() {
-    data.getData().then((result) => {
-        // Update latest results for when new client's connect
-        latestData = result;
-
-        // send it to all connected clients
-        io.emit('data', result);
-
-        console.log('Last updated: ' + new Date());
-    });
-}, 300000);
-Kopie Ende
- */

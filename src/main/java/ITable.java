@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface ITable {
     /**
-     * TODO sortCountries()
+     *
      * Sortiert die Länder nach ihrer gottgegebenen Ordnung :)
      */
     void sortCountries();

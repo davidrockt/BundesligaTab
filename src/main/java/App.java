@@ -81,8 +81,7 @@ public class App {
             String country2 = (Objects.requireNonNull(ctx.queryParam("country1")));
             int goals1 = Integer.parseInt(Objects.requireNonNull(ctx.queryParam("goals1")));
             int goals2 = Integer.parseInt(Objects.requireNonNull(ctx.queryParam("goals2")));
-            Match match3 = new Match(countries.get(country1), countries.get(country2), goals1, goals2);
-            match3.update();
+            table.update(new Match(countries.get(country1), countries.get(country2), goals1, goals2));
             ctx.result(table.toString());
         });
     }

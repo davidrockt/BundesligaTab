@@ -2,6 +2,10 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'application'
+
+mainClassName = 'App'
+
 group 'Bulitab'
 version '1.0-SNAPSHOT'
 

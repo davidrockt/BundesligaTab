@@ -23,6 +23,7 @@ public final class FootballTest {
     @Test
     public void test_one_game_at_a_time() {
         ICountry de = new Country("Deutschland");
+        // TODO Land kann nicht gegen sich selbst spielen
         de.update(1, 1);
         assertEquals(1, de.getGamesPlayed());
         assertEquals(0, de.getWinLooseTie().getWin());
