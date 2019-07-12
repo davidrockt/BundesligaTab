@@ -65,16 +65,13 @@ public class Country implements ICountry {
 
     @Override
     public void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted) {
-        System.out.println("" + getName() + " hat jetzt ...");
         if(!alreadyStarted) {
             winLooseTie.addOneTie();
             points++;
-            System.out.println("... 1 Punkt mehr ...");
             gamesPlayed++;
             // TODO von hier aus simMatch.start() ????
         }
         this.goals.addGoals(newGoals - oldGoals);
-        System.out.println("...  " + (newGoals - oldGoals) + " Tor(e) mehr ...");
         this.goals.addGoalsAgainst(newGoalsAgainst - oldGoalsAgainst);
         this.goals.addGoalDiff(newGoals - oldGoals - newGoalsAgainst + oldGoalsAgainst);
         switch (points(newGoals, newGoalsAgainst) - points(oldGoals, oldGoalsAgainst)) {
@@ -82,40 +79,33 @@ public class Country implements ICountry {
                 winLooseTie.addOneWin();
                 winLooseTie.minusOneLoose();
                 points += 3;
-                System.out.println("... 3 Punkte mehr ...");
                 break;
             case 2:
                 winLooseTie.addOneWin();
                 winLooseTie.minusOneTie();
                 points += 2;
-                System.out.println("... 2 Punkte mehr ...");
                 break;
             case 1:
                 winLooseTie.addOneTie();
                 winLooseTie.minusOneLoose();
                 points += 1;
-                System.out.println("... 1 Punkt mehr ...");
                 break;
             case -1:
                 winLooseTie.addOneLoose();
                 winLooseTie.minusOneTie();
                 points -= 1;
-                System.out.println("... 1 Punkt weniger ...");
                 break;
             case -2:
                 winLooseTie.addOneTie();
                 winLooseTie.minusOneWin();
                 points -= 2;
-                System.out.println("... 2 Punkte weniger ...");
                 break;
             case -3:
                 winLooseTie.addOneLoose();
                 winLooseTie.minusOneWin();
                 points -= 3;
-                System.out.println("... 3 Punkte weniger ...");
                 break;
         }
-        System.out.println(toString());
     }
 
     @Override
@@ -135,22 +125,20 @@ public class Country implements ICountry {
     @Override
     public String toString() {
         return "Country{" +
-                "name='" + name + "'}";
-        /*+
+                "name='" + name + "'}" +
                 ", gamesPlayed=" + gamesPlayed +
                 ", winLooseTie=" + (winLooseTie) +
                 ", goals=" + (goals) +
                 ", points=" + points +
-                '}';*/
+                '}';
     }
 
     @Override
     public int compareTo(ICountry o) {
         if (o.getPoints() != points) {
-            //System.out.printf("compareto return ----> o.getPoints() - points = %d%n", o.getPoints() - points);
             return o.getPoints() - points;
         }
-        // TODO zusätzliche Sortierungskriterien
+        // TODO evtll zusätzliche Sortierungskriterien
         if (o.getGoals().getGoalDiff() != goals.getGoalDiff())
             return o.getGoals().getGoalDiff() - goals.getGoalDiff();
         return getName().compareTo(o.getName());

@@ -57,9 +57,6 @@ public class SimulatedLiveMatch extends Thread{
 
     public void liveUpdate(boolean alreadyStarted) {
         if(newGoalsUpdated) return;
-        System.out.println("***");
-        System.out.println("Alter Spielstand: DE - GB ----> " + goals.get(0) + " - " + goals.get(1));
-        System.out.println("Neuer Spielstand: DE - GB jetzt " + newGoals.get(0) + " - " + newGoals.get(1));
         country0.liveUpdate(goals.get(0), goals.get(1), newGoals.get(0), newGoals.get(1), alreadyStarted);
         country1.liveUpdate(goals.get(1), goals.get(0), newGoals.get(1), newGoals.get(0), alreadyStarted);
         newGoalsUpdated = true;

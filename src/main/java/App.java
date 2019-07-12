@@ -5,7 +5,6 @@ import org.json.simple.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class App {
@@ -17,7 +16,7 @@ public class App {
                 .start(7000);
 
 
-        Country de = new Country("Deutschland"), gb = new Country("England"),
+        ICountry de = new Country("Deutschland"), gb = new Country("England"),
                 es = new Country("Spanien"), br = new Country("Brasilien");
         Map<String, ICountry> countries = new HashMap<String, ICountry>() {{
             put("de", de);
@@ -25,7 +24,7 @@ public class App {
             put("gb", gb);
             put("br", br);
         }};
-        ITable table = new Table(countries);
+        ITable table = new Table(new ICountry[]{de, gb, es, br});
 
         app.ws("/livematch", ws -> {
             ws.onConnect(session -> {
@@ -34,16 +33,12 @@ public class App {
             });
 
             ws.onMessage((session, message) -> {
-                System.out.println("message = " + message);
                 // "{\"country1\":\"de\",\"country2\":\"br\"}"
 
                 // TODO JSON Mapper
-                // JA ICH WEIß, DAS IST GANZ SCHLECHTER STIL WAS ICH HIER IN DEN NÄCHSTEN ZEILEN MACHE :-( ZEITMANGEL....
+                // Ja ich bin mir bewusst, dass diese Zeilen ganz schlechter Stil sind. Leider hat ein Versuch eines Json-Mappers nicht funktioniert
                 String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
-                System.out.println("msg = " + msg);
                 String[] msgs = msg.split("[,:]");
-                Arrays.stream(msgs).forEach(System.out::println);
-
                 String country1 = msgs[1];
                 String country2 = msgs[3];
 
@@ -63,9 +58,6 @@ public class App {
                         System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
                     }
                 }
-
-
-                // System.out.println("table.toString() = " + table.toString());
             });
             ws.onClose((session, status, message) -> {
                 System.out.println("Disconnected: " + sessions.get(session));
@@ -73,14 +65,16 @@ public class App {
             });
         });
 
-        app.get("/start", ctx -> ctx.result(table.toString()));
+        app.get("/start", ctx -> {
+            ctx.result(table.toString());
+        });
 
         app.get("/addgame", ctx -> {
             System.out.println(Arrays.toString(ctx.queryParamMap().values().toArray()));
-            String country1 = (Objects.requireNonNull(ctx.queryParam("country0")));
-            String country2 = (Objects.requireNonNull(ctx.queryParam("country1")));
-            int goals1 = Integer.parseInt(Objects.requireNonNull(ctx.queryParam("goals1")));
-            int goals2 = Integer.parseInt(Objects.requireNonNull(ctx.queryParam("goals2")));
+            String country1 = (ctx.queryParam("country0"));
+            String country2 = (ctx.queryParam("country1"));
+            int goals1 = Integer.parseInt(ctx.queryParam("goals1"));
+            int goals2 = Integer.parseInt(ctx.queryParam("goals2"));
             table.update(new Match(countries.get(country1), countries.get(country2), goals1, goals2));
             ctx.result(table.toString());
         });
@@ -88,7 +82,6 @@ public class App {
 
     private static void broadcastMessage(JSONObject message) {
         sessions.keySet().forEach(ses -> {
-            System.out.println("sessions.get(ses) = " + sessions.get(ses));
             ses.send(message.toJSONString());
         });
     }

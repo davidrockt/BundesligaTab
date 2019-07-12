@@ -1,17 +1,17 @@
 import org.json.simple.JSONObject;
 
-import java.util.Map;
+import java.util.List;
 
 public interface ITable {
     /**
      *
-     * Sortiert die Länder nach ihrer gottgegebenen Ordnung :)
+     * Sortiert die Länder nach ihrer gottgegebenen Ordnung
      */
     void sortCountries();
-    Map<String, ICountry> getCountries();
+    List<ICountry> getCountries();
     ICountry getCountryOnPosition(int position);
 
-    // TODO Methode getPositionof(Country);
+    // TODO evtll Methode getPositionof(Country);
 
     /**
      * Gibt den beteiligten Teams ein Update ihrer Statistik-Werte
