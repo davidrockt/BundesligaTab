@@ -60,7 +60,7 @@ public class SimulatedLiveMatch extends Thread{
     @Override
     public void run() {
         int idxNextGoal;
-        int[] nextGoal = new int[]{0, 0, 0, 0, 1, 1};
+        int[] nextGoal = new int[]{0, 0, 1, 1, 1, 1};
         for(int i = 0; i < 10; i++) {
             try {
                 sleep(1000);
