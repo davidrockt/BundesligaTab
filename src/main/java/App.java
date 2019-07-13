@@ -9,6 +9,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class App {
     private static Map<WsSession, String> sessions = new ConcurrentHashMap<>();
+    private static ICountry de = new Country("Deutschland"), gb = new Country("England"),
+            es = new Country("Spanien"), br = new Country("Brasilien");
+    private static Map<String, ICountry> countries = new HashMap<String, ICountry>() {{
+        put("de", de);
+        put("es", es);
+        put("gb", gb);
+        put("br", br);
+    }};
+    private static ITable table = new Table(new ICountry[]{de, gb, es, br});
 
     public static void main(String[] args) {
         Javalin app = Javalin.create()
@@ -16,17 +25,8 @@ public class App {
                 .start(7000);
 
 
-        ICountry de = new Country("Deutschland"), gb = new Country("England"),
-                es = new Country("Spanien"), br = new Country("Brasilien");
-        Map<String, ICountry> countries = new HashMap<String, ICountry>() {{
-            put("de", de);
-            put("es", es);
-            put("gb", gb);
-            put("br", br);
-        }};
-        ITable table = new Table(new ICountry[]{de, gb, es, br});
-
         app.ws("/livematch", ws -> {
+
             ws.onConnect(session -> {
                 sessions.put(session, "" + sessions.size());
                 System.out.println("Connected: " + sessions.get(session));
@@ -36,23 +36,17 @@ public class App {
                 // "{\"country1\":\"de\",\"country2\":\"br\"}"
 
                 // TODO JSON Mapper
-                // Ja ich bin mir bewusst, dass diese Zeilen ganz schlechter Stil sind. Leider hat ein Versuch eines Json-Mappers nicht funktioniert
                 String msg = message.replaceAll("(\\{)|(\\\\)|(})|(\")", "");
                 String[] msgs = msg.split("[,:]");
-                String country1 = msgs[1];
-                String country2 = msgs[3];
 
-                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(country1), countries.get(country2));
+                SimulatedLiveMatch simMatch = new SimulatedLiveMatch(countries.get(msgs[1]), countries.get(msgs[3]));
                 simMatch.start();
                 table.liveUpdate(simMatch, false);
 
                 for(int i = 0; !simMatch.isFinished() && i < 50; i++) {
                     try {
                         Thread.sleep(2000);
-                        JSONObject json = new JSONObject();
-                        json.put("livematch", table.liveUpdate(simMatch, true));
-                        json.put("table", table.toString());
-                        broadcastMessage(json);
+                        broadcastMessage(simMatch);
                     }
                     catch(InterruptedException e) {
                         System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
@@ -70,7 +64,7 @@ public class App {
         });
 
         app.get("/addgame", ctx -> {
-            System.out.println(Arrays.toString(ctx.queryParamMap().values().toArray()));
+            // System.out.println(Arrays.toString(ctx.queryParamMap().values().toArray()));
             String country1 = (ctx.queryParam("country0"));
             String country2 = (ctx.queryParam("country1"));
             int goals1 = Integer.parseInt(ctx.queryParam("goals1"));
@@ -79,10 +73,13 @@ public class App {
             ctx.result(table.toString());
         });
     }
-
-    private static void broadcastMessage(JSONObject message) {
+    private static void broadcastMessage(SimulatedLiveMatch simMatch) {
+        JSONObject json = new JSONObject();
+        json.put("livematch", table.liveUpdate(simMatch, true));
+        json.put("table", table.toString());
         sessions.keySet().forEach(ses -> {
-            ses.send(message.toJSONString());
+            ses.send(json.toJSONString());
         });
     }
+
 }

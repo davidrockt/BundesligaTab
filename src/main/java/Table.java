@@ -27,6 +27,12 @@ public class Table implements ITable{
     }
 
     @Override
+    public List<ICountry> addCountry(ICountry country) {
+        countryList.add(country);
+        return countryList;
+    }
+
+    @Override
     public ICountry getCountryOnPosition(int position) {
         ICountry[] arr = new ICountry[countryList.size()];
         int i = 0;

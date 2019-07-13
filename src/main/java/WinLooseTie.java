@@ -48,6 +48,6 @@ public class WinLooseTie {
     }
 
     public void minusOneTie() {
-        this.tie++;
+        this.tie--;
     }
 }

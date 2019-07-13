@@ -9,6 +9,7 @@ public interface ITable {
      */
     void sortCountries();
     List<ICountry> getCountries();
+    List<ICountry> addCountry(ICountry country);
     ICountry getCountryOnPosition(int position);
 
     // TODO evtll Methode getPositionof(Country);

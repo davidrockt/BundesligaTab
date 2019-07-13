@@ -10,7 +10,6 @@ public class SimulatedLiveMatch extends Thread{
     private Random r;
     private boolean matchFinished = false;
     private boolean newGoalsUpdated = false;
-    private int idxNextGoal;
 
     SimulatedLiveMatch(ICountry country0, ICountry country1) {
         if(country0.getName().equals(country1.getName()))
@@ -46,10 +45,6 @@ public class SimulatedLiveMatch extends Thread{
         return matchFinished;
     }
 
-    public int getIdxNextGoal() {
-        return idxNextGoal;
-    }
-
     public void update() {
         country0.update(oldGoals.get(0), oldGoals.get(1));
         country1.update(oldGoals.get(1), oldGoals.get(0));
@@ -64,15 +59,17 @@ public class SimulatedLiveMatch extends Thread{
 
     @Override
     public void run() {
-        for(int i = 0; i < 5; i++) {
+        int idxNextGoal;
+        int[] nextGoal = new int[]{0, 0, 0, 0, 1, 1};
+        for(int i = 0; i < 10; i++) {
             try {
-                sleep(1000 * r.nextInt(8));
+                sleep(1000);
                 idxNextGoal = r.nextInt(2);
                 if(newGoalsUpdated) {
                     oldGoals.put(0, newGoals.get(0));
                     oldGoals.put(1, newGoals.get(1));
                 }
-                newGoals.put(idxNextGoal, oldGoals.get(idxNextGoal) + 1);
+                newGoals.put(idxNextGoal, oldGoals.get(idxNextGoal) + nextGoal[r.nextInt(6)]);
                 newGoalsUpdated = false;
             }
             catch(InterruptedException e) {
