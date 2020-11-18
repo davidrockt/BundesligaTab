@@ -72,10 +72,10 @@ Datei | Aufgabe
 
 Request/Reply | Funktion
 --------|---------
-[App.java](\src\main\java\App.java) | 
-- "/livematch" (WS) | Der Websocket-Pfad **"/livematch"** wird aktiviert, wenn in der GUI zwei Mannschaften für ein Live-Spiel ausgewählt und der entsprechende Button gedrückt wird, um das Spiel zu starten. Dann wird Javalin die Auswahl übergeben, und daraufhin ein Spiel gestartet. Anschließend wird in regelmäßigen Abständen das gerade aktuelle Ergebnis des Live-Spiels abgefragt, und die entsprechend aktualisierte Tabelle (per toString) mitsamt Spielstand über JSON an den Client geschickt. 
-- "/start" | **"/start"** wird beim ersten Laden der Seite aufgerufen, und tut nichts anderes, als die Tabelle zu initialiseren und zur Anzeige in der GUI per ctx.result() zurückzugeben.
-- "/addgame" | **"/addgame"** wird aktiviert, wenn in der GUI ein fertiges Spielergebnis eingetragen wird. Über die Parameter wird das Ergebnis Javalin mitgeteilt, woraufhin wieder die Tabelle aktualisiert zurückgegeben wird.
+[App.java](\src\main\java\App.java) |
+"/livematch" (WS) | Der Websocket-Pfad **"/livematch"** wird aktiviert, wenn in der GUI zwei Mannschaften für ein Live-Spiel ausgewählt und der entsprechende Button gedrückt wird, um das Spiel zu starten. Dann wird Javalin die Auswahl übergeben, und daraufhin ein Spiel gestartet. Anschließend wird in regelmäßigen Abständen das gerade aktuelle Ergebnis des Live-Spiels abgefragt, und die entsprechend aktualisierte Tabelle (per toString) mitsamt Spielstand über JSON an den Client geschickt. 
+"/start" | **"/start"** wird beim ersten Laden der Seite aufgerufen, und tut nichts anderes, als die Tabelle zu initialiseren und zur Anzeige in der GUI per ctx.result() zurückzugeben.
+"/addgame" | **"/addgame"** wird aktiviert, wenn in der GUI ein fertiges Spielergebnis eingetragen wird. Über die Parameter wird das Ergebnis Javalin mitgeteilt, woraufhin wieder die Tabelle aktualisiert zurückgegeben wird.
 
 
 
@@ -85,20 +85,20 @@ Request/Reply | Funktion
 Methode | Funktion
 --------|---------
 [ICountry.java](\src\main\java\ICountry.java) | 
-- String getName(); | gibt den **Ländernamen** zurück
-- int getGamesPlayed(); | gibt Anzahl **gespielter Spiele** zurück
-- WinLooseTie getWinLooseTie(); | gibt die **Sieg-Niederlage**-Unentschieden-Statistik zurück
-- Goals getGoals(); | gibt Goals zurück, das **Tore**, Gegentore und Tor-Differenz enthält.
-- int getPoints(); | gibt die Gesamt-**Punkte** aller bisher gespielten Spiele der Mannschaft zurück
-- void update(int goals, int goalsAgainst); | Gibt dem Land ein Update der Werte (Tore, Punkte, usw) gemäß dem endgültigen Ergebnis eines **beendeten Spiels**
-- void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted); | Gibt dem Land ein Update der Werte (Tore, Punkte, usw) gemäß dem aktuellen Spielstand eines **Live-Spiels**
-- int points(int goals, int goalsAgainst); | Berechnet, wie viele Punkte der eingegebene Spielstand ergibt
+String getName(); | gibt den **Ländernamen** zurück
+int getGamesPlayed(); | gibt Anzahl **gespielter Spiele** zurück
+WinLooseTie getWinLooseTie(); | gibt die **Sieg-Niederlage**-Unentschieden-Statistik zurück
+Goals getGoals(); | gibt Goals zurück, das **Tore**, Gegentore und Tor-Differenz enthält.
+int getPoints(); | gibt die Gesamt-**Punkte** aller bisher gespielten Spiele der Mannschaft zurück
+void update(int goals, int goalsAgainst); | Gibt dem Land ein Update der Werte (Tore, Punkte, usw) gemäß dem endgültigen Ergebnis eines **beendeten Spiels**
+void liveUpdate(int oldGoals, int oldGoalsAgainst, int newGoals, int newGoalsAgainst, boolean alreadyStarted); | Gibt dem Land ein Update der Werte (Tore, Punkte, usw) gemäß dem aktuellen Spielstand eines **Live-Spiels**
+int points(int goals, int goalsAgainst); | Berechnet, wie viele Punkte der eingegebene Spielstand ergibt
 [ITable.java](\src\main\java\ITable.java) | 
-- void sortCountries(); | sortiert die Länder nach der vorgegebenen Reihenfolge. Hier: Zuerst nach Punkten, dann nach Tordifferenz, und als letztes nach dem Ländernamen
-- Map<String, ICountry> getCountries(); | Gibt die Liste aller in der Tabelle enthaltenen Länder zurück
-- ICountry getCountryOnPosition(int position); | Gibt das Land auf der gewünschten Position in der Tabelle zurück
-- void update(Match match); | Aktualisiert die Tabelle gemäß dem Ergebnis des eingegebenen Spiels
-- JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted); | Aktualisiert die Tabelle gemäß dem aktullen Spielstand eines Live-Spiels, und gibt ein JSONObject mit dem Spielstand zurück (das für die Übermittlung zum Client benötigt wird)
+void sortCountries(); | sortiert die Länder nach der vorgegebenen Reihenfolge. Hier: Zuerst nach Punkten, dann nach Tordifferenz, und als letztes nach dem Ländernamen
+Map<String, ICountry> getCountries(); | Gibt die Liste aller in der Tabelle enthaltenen Länder zurück
+ICountry getCountryOnPosition(int position); | Gibt das Land auf der gewünschten Position in der Tabelle zurück
+void update(Match match); | Aktualisiert die Tabelle gemäß dem Ergebnis des eingegebenen Spiels
+JSONObject liveUpdate(SimulatedLiveMatch simMatch, boolean alreadyStarted); | Aktualisiert die Tabelle gemäß dem aktullen Spielstand eines Live-Spiels, und gibt ein JSONObject mit dem Spielstand zurück (das für die Übermittlung zum Client benötigt wird)
 
 
 ## Technischer Anspruch (TA) und Umsetzung der Features
