@@ -1,4 +1,12 @@
 # Projekt: SoccerTab
+## Entstehung
+
+Dieses Projekt ist im Rahmen der 2.Semester-Vorlesung **"Programmierung interaktiver Systeme"** im Ingenieur-Informatik Studium an der Technischen Hochschule Mittelhessen (THM) Gießen enstanden.
+
+Die Vorgabe war, mit Java 11, [Javalin](https://github.com/javalin/javalin) (einem Web-Framework) und Gradle ein Programmierprojekt umzusetzen, und dabei einige Features aus einer vorgebenen Liste umzusetzen, wie z.B. Nutzung eines externen Webdienstes, Websockets und Server-Sent Events.
+
+Offizielle **Kurzbeschreibung** aus der Prüfungsordnung:
+> Die Studierenden beherrschen fortgeschrittene Konzepte einer modernen Programmiersprache, die sowohl prozedurale, objektorientierte als auch funktionale Sprachkonstrukte umfasst. Sie sind zudem dazu befähigt, ein Programmierprojekt mit interaktiven Anteilen umzusetzen.
 
 Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Die/1, Hb)
 
@@ -6,17 +14,27 @@ Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Die/1, Hb)
 
 ## Kurzbeschreibung
 
-> Die Anwendung "SoccerTab" stellt eine Fußball-Tabelle dar,
+> Die Anwendung "SoccerTab" stellt eine **Fußball-Tabelle** dar, die beispielhaft vier
+  Nationalmannschaften enthält und
   die sich automatisch mit neuen Ergebnissen aktualisiert. Da dies schwer mit LIVE-
-  Spielen zu demonstrieren ist, wird ein Live-Match simuliert und die Tabelle dann
-  während des laufenden Spiels aktualisiert.
+  Spielen zu demonstrieren ist, wird ein **Live-Match** simuliert und die Tabelle dann
+  während des laufenden Spiels aktualisiert.  
   Es gibt außerdem noch die Möglichkeit fertige Spielstände einzutragen. Es lassen
   sich mehrere Fenster öffnen, und ein in einem Fenster gestartetes Live-Spiel wird
-  über Websockets in allen Fenstern angezeigt, und die Tabellen entsprechend
-  aktualisiert.
+  über **Websockets** in allen Fenstern angezeigt, und die Tabellen entsprechend
+  aktualisiert.  
+  Mit 60 **JUnit-Tests** wird die Anwendungslogik getestet.
 
 
 ![Screenshot](src/main/resources/public/screenshot2.png)
+
+## Bauen und Starten der Anwendung
+
+```
+git clone https://github.com/davidwepunkt/BundesligaTab.git
+cd BundesligaTab
+gradle run
+```
 
 
 ## Beschreibung des Projektaufbaus
@@ -25,40 +43,34 @@ Name & Praktikumstermin: David Waldmann, <Matrikelnummer> (Die/1, Hb)
 
 Verlinkter Dateiname | Dateiart | LOC
 ---------------------|----------|-----
-[App.java](\src\main\java\App.java) | Java | 70
-[ICountry.java](\src\main\java\ICountry.java) | Java | 10
-[Country.java](\src\main\java\Country.java) | Java | 150
-[ITable.java](\src\main\java\ITable.java) | Java | 9
-[Table.java](\src\main\java\Table.java) | Java | 59
-[Match.java](\src\main\java\Match.java) | Java | 38
-[SimulatedLiveMatch.java](\src\main\java\SimulatedLiveMatch.java) | Java | 72
-[Goals.java](\src\main\java\Goals.java) | Java | 40
-[WinLooseTie.java](\src\main\java\WinLooseTie.java) | Java | 40
-[index.html](\src\main\resources\public\index.html) | HTML | 130
-[javascript.js](\src\main\resources\public\javascript.js) | Javascript | 37
-[Screenshot.png](\src\main\resources\public\screenshot.png) | Bild
+> [App.java](\src\main\java\App.java), Java, 70  
+[ICountry.java](\src\main\java\ICountry.java), Java, 10  
+[Country.java](\src\main\java\Country.java), Java, 150  
+[ITable.java](\src\main\java\ITable.java), Java, 9  
+[Table.java](\src\main\java\Table.java), Java, 59  
+[Match.java](\src\main\java\Match.java), Java, 38  
+[SimulatedLiveMatch.java](\src\main\java\SimulatedLiveMatch.java), Java, 72  
+[Goals.java](\src\main\java\Goals.java), Java, 40  
+[WinLooseTie.java](\src\main\java\WinLooseTie.java), Java, 40  
+[index.html](\src\main\resources\public\index.html), HTML, 130  
+[javascript.js](\src\main\resources\public\javascript.js), Javascript, 37  
+[Screenshot.png](\src\main\resources\public\screenshot.png), Bild  
 
 ### Testdateien (TST)
 
 Verlinkter Dateiname | Testart | Anzahl der Tests
 ---------------------|---------|-----------------
-[SoccerTest.java](\src\test\java\SoccerTest.java) | JUnit5 | 60
-
-Die Tests werden wie folgt ausgeführt:
-
-Ich hoffe, das kann ich bis zur Abgabe noch herausfinden. Ich führe die Tests
-in IntelliJ per "Knopfdruck" aus.
+> [SoccerTest.java](\src\test\java\SoccerTest.java), JUnit5, 60
 
 ### Aufbau der Anwendung
 
 Datei | Aufgabe 
 ---------------------|----------
 [App.java](\src\main\java\App.java) | Hier wird der **Javalin-Server** aufgesetzt, und die **Websockets** eingerichtet
-[ICountry.java](\src\main\java\ICountry.java) | Interface für Country (s.u.)
+[ICountry.java](\src\main\java\ICountry.java) | Country-Interface
 [Country.java](\src\main\java\Country.java) | Klasse für eine **Mannschaft**, mit Statistiken wie Punkten, Toren, Gegentoren usw
-[ITable.java](\src\main\java\ITable.java) | Interface für Table (s.u.)
-[Table.java](\src\main\java\Table.java) | Klasse für die **Tabelle**, der über den Konstruktor neue Länder hinzugefügt 
-<d>| werden können, und die die enthaltenen Länder sortieren kann, und neue Matches hinzufügen kann
+[ITable.java](\src\main\java\ITable.java) | Table-Interface
+[Table.java](\src\main\java\Table.java) | Klasse für die **Tabelle**, der über den Konstruktor neue Länder hinzugefügt werden können, und die die enthaltenen Länder sortieren kann, und neue Matches hinzufügen kann
 [Match.java](\src\main\java\Match.java) | Klasse für ein **Match**, das die beteiligten Mannschaften und das End-Ergebnis enthält
 [SimulatedLiveMatch.java](\src\main\java\SimulatedLiveMatch.java) | Klasse für ein simuliertes **Live-Spiel**, das Daten enthält, damit der Tabelle Zwischenstände übergeben werden können, ohne dass Tore oder Punkte doppelt verbucht werden.
 [Goals.java](\src\main\java\Goals.java) | Klasse für die **Tor-Statistik** einer Mannschaft, mit Gegentoren und Tordifferenz
