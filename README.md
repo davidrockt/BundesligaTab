@@ -1,4 +1,4 @@
-# Projekt: SoccerTab
+# Projekt: BundesligaTab
 ## Entstehung
 
 Dieses Projekt ist im Rahmen der 2.Semester-Vorlesung **"Programmierung interaktiver Systeme"** im Ingenieur-Informatik Studium an der Technischen Hochschule Mittelhessen (THM) Gießen enstanden.
